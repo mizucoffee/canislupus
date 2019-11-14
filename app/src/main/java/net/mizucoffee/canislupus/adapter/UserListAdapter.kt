@@ -14,7 +14,7 @@ import net.mizucoffee.canislupus.model.User
 class UserListAdapter: RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
 
     private val list: ArrayList<User> = ArrayList()
-    private var listener: ((Int) -> Unit)? = null
+    private var listener: ((Int, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.user_list_item,parent,false)
@@ -26,11 +26,11 @@ class UserListAdapter: RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
     override fun onBindViewHolder(holder: UserViewHolder, pos: Int) {
         val isUser = itemCount - 1 > pos
 
-        holder.userName.text = if (isUser) list[pos].name else "ユーザーを追加"
+        holder.userName.text = if (isUser) list[pos].name else "プレイヤーを追加"
         holder.userName.setTextColor(Color.parseColor( if (isUser) "#000000" else "#CCCCCC"))
         holder.userIcon.setImageResource(if (isUser) R.drawable.logo else R.drawable.ic_add_circle_black_24dp)
         holder.root.setOnClickListener {
-            listener?.let { it1 -> it1(pos) }
+            listener?.let { it1 -> it1(pos, itemCount) }
         }
     }
 
@@ -40,7 +40,7 @@ class UserListAdapter: RecyclerView.Adapter<UserListAdapter.UserViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun setOnClickListener(listener: (Int) -> Unit) {
+    fun setOnClickListener(listener: (Int, Int) -> Unit) {
         this.listener = listener
     }
 

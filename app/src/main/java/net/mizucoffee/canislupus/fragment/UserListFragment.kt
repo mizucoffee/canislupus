@@ -47,12 +47,14 @@ class UserListFragment : Fragment() {
 
         listenUserList(userListViewModel)
         observeUserList(userListViewModel)
-
+        observeToast(userListViewModel)
+        observeTransition(userListViewModel)
+        setOnClickNextBtn(userListViewModel)
     }
 
     fun listenUserList(viewModel: UserListViewModel) {
-        userListAdapter.setOnClickListener { pos ->
-            viewModel.addUser()
+        userListAdapter.setOnClickListener { pos, size ->
+            if(pos == size - 1) viewModel.addUser()
         }
     }
 
@@ -61,6 +63,25 @@ class UserListFragment : Fragment() {
             userListAdapter.addUsers(it)
             userListAdapter.notifyDataSetChanged()
         })
+    }
+
+    fun observeToast(viewModel: UserListViewModel) {
+        viewModel.toastLiveData.observe(this, Observer {
+            Toast.makeText(activity?.applicationContext, it, Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    fun observeTransition(viewModel: UserListViewModel) {
+        viewModel.transitionLiveData.observe(this, Observer {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.gameFragmentLayout, SetNumberFragment.newInstance())?.commit()
+        })
+    }
+
+    fun setOnClickNextBtn(viewModel: UserListViewModel) {
+        nextBtn.setOnClickListener {
+            viewModel.next()
+        }
     }
 
 }

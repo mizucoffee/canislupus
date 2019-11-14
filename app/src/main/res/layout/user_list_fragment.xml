@@ -2,12 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userListRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        android:layout_weight="1"/>
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/bottom_button"
+        android:text="NEXT"
+        android:textColor="#fff"
+        android:textSize="20sp" />
 
 </LinearLayout>
