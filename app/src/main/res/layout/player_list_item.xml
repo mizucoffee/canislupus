@@ -10,17 +10,16 @@
     android:foreground="?android:attr/selectableItemBackground">
 
     <ImageView
-        android:id="@+id/userIcon"
+        android:id="@+id/playerIcon"
         android:layout_width="48dp"
         android:layout_height="48dp"
         app:srcCompat="@drawable/logo" />
 
     <TextView
-        android:id="@+id/nameTextView"
+        android:id="@+id/playerName"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center_vertical"
         android:paddingStart="24dp"
-        android:text="TextView"
         android:textSize="24sp" />
 </LinearLayout>

@@ -1,6 +1,6 @@
 package net.mizucoffee.canislupus.model
 
-data class User(
+data class Player(
     val name: String,
     val id: String
 )
