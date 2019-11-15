@@ -21,10 +21,15 @@ class PlayerListAdapter: RecyclerView.Adapter<PlayerListAdapter.PlayerViewHolder
         return PlayerViewHolder(view)
     }
 
-    override fun getItemCount(): Int = list.size + 1
+    override fun getItemCount(): Int {
+        return if(list.size < 6)
+            list.size + 1
+        else
+            list.size
+    }
 
     override fun onBindViewHolder(holder: PlayerViewHolder, pos: Int) {
-        val isPlayer = itemCount - 1 > pos
+        val isPlayer = list.size > pos
 
         holder.playerName.text = if (isPlayer) list[pos].name else "プレイヤーを追加"
         holder.playerName.setTextColor(Color.parseColor( if (isPlayer) "#000000" else "#CCCCCC"))

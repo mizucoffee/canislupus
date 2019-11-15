@@ -29,7 +29,9 @@ class SetNumberFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(SetNumberViewModel::class.java)
-        println((activity as GameActivity).gameViewModel.getPlayers())
+
+        val playerCount = (activity as GameActivity).gameViewModel.getPlayers().size
+
     }
 
 }
