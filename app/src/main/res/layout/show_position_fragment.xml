@@ -56,7 +56,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="32dp"
-            android:layout_marginBottom="120dp"
             android:background="@drawable/bottom_button"
             android:paddingLeft="32dp"
             android:paddingTop="16dp"

@@ -75,7 +75,7 @@ class ShowPositionFragment : Fragment() {
                 ConfirmPositionFragment.newInstance()
             } else {
                 (activity as GameActivity).gameViewModel.setConfirmCount(0)
-                PlayerListFragment.newInstance()
+                StartDiscussionFragment.newInstance()
             }
 
             transaction?.replace(R.id.gameFragmentLayout, next)?.commit()

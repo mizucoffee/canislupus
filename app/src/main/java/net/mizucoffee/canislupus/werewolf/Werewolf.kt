@@ -21,7 +21,7 @@ open class Werewolf : Position() {
             println(position)
         }
         return if (wolf.isNotEmpty())
-            wolf.map { it.player?.name }.joinToString { "さんと" } + "さんも人狼です"
+            wolf.map { it.player?.name }.joinToString("さんと") + "さんも人狼です"
         else
             "人狼はあなただけです"
     }
