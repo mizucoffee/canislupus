@@ -1,23 +1,28 @@
 package net.mizucoffee.canislupus.werewolf
 
 import net.mizucoffee.canislupus.model.Player
-import net.mizucoffee.canislupus.werewolf.enumerate.Camp
-import net.mizucoffee.canislupus.werewolf.enumerate.PositionEnum
-import net.mizucoffee.canislupus.werewolf.enumerate.Winner
-import net.mizucoffee.canislupus.werewolf.position.*
+import net.mizucoffee.canislupus.enumerate.Camp
+import net.mizucoffee.canislupus.enumerate.PositionEnum
+import net.mizucoffee.canislupus.enumerate.Winner
 
 abstract class Position {
 
     // 投票先とか管理
     // 1試合単位で使う情報を保管
-    abstract val player: Player?
+    abstract var player: Player?
     abstract var vote: String?
-
+    abstract val position: PositionEnum
     abstract val camp: Camp
+
+    abstract fun getMiniMessage(positions: List<Position>): String?
 
     abstract fun checkWinLose(executed: List<Position>, positions: List<Position>): Int
 
     abstract fun ability(positions: List<Position>): String?
+
+    override fun toString(): String {
+        return "Position = \"$position\", Player = \"${player?.name}\", Camp = \"$camp\""
+    }
 
     companion object {
         val defaultSet = mapOf(

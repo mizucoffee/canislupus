@@ -1,4 +1,4 @@
-package net.mizucoffee.canislupus.werewolf.enumerate
+package net.mizucoffee.canislupus.enumerate
 
 enum class Winner {
     VILLAGER_NORMAL,

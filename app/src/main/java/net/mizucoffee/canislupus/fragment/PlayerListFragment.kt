@@ -11,7 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.player_list_fragment.*
-import net.mizucoffee.canislupus.GameActivity
+import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.adapter.PlayerListAdapter
@@ -82,7 +82,6 @@ class PlayerListFragment : Fragment() {
 
     fun setOnClickNextBtn(viewModel: PlayerListViewModel) {
         nextBtn.setOnClickListener {
-
             viewModel.next()
         }
     }

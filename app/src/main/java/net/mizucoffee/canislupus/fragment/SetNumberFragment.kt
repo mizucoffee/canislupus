@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.set_number_fragment.*
-import net.mizucoffee.canislupus.GameActivity
+import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
-import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.viewmodel.SetNumberViewModel
-import net.mizucoffee.canislupus.werewolf.Position
 
 class SetNumberFragment : Fragment() {
 
@@ -36,17 +34,26 @@ class SetNumberFragment : Fragment() {
 
         listenNextBtn(setNumberViewModel)
         observePositionList(setNumberViewModel)
+        observeTransition(setNumberViewModel)
     }
 
     fun listenNextBtn(viewModel: SetNumberViewModel) {
         nextBtn.setOnClickListener {
-            viewModel.initPosition((activity as GameActivity).gameViewModel.getPlayers().size)
+            viewModel.initPosition((activity as GameActivity).gameViewModel.getPlayers())
+            viewModel.next()
         }
     }
 
     fun observePositionList(viewModel: SetNumberViewModel) {
         viewModel.positionList.observe(this, Observer {
             (activity as GameActivity).gameViewModel.setPositionList(it)
+        })
+    }
+
+    fun observeTransition(viewModel: SetNumberViewModel) {
+        viewModel.transitionLiveData.observe(this, Observer {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.gameFragmentLayout, ConfirmPositionFragment.newInstance())?.commit()
         })
     }
 }

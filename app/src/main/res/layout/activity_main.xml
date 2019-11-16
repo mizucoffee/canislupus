@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -21,12 +21,14 @@
         android:id="@+id/gameStartBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="232dp"
+        android:layout_marginBottom="120dp"
+        android:background="@drawable/bottom_button"
         android:paddingLeft="32dp"
         android:paddingTop="16dp"
         android:paddingRight="32dp"
         android:paddingBottom="16dp"
         android:text="Game Start"
+        android:textColor="#fff"
         android:textSize="28sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

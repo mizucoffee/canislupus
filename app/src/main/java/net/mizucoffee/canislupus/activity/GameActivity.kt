@@ -1,10 +1,11 @@
-package net.mizucoffee.canislupus
+package net.mizucoffee.canislupus.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProviders
+import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.fragment.PlayerListFragment
 import net.mizucoffee.canislupus.viewmodel.GameViewModel
 

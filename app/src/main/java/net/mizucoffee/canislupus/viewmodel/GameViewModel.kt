@@ -7,6 +7,7 @@ import net.mizucoffee.canislupus.werewolf.Position
 class GameViewModel : ViewModel() {
     private lateinit var players: ArrayList<Player>
     private lateinit var positionList: ArrayList<Position>
+    private var confirmCount: Int = 0
 
     fun setPlayers(players: ArrayList<Player>) {
         this.players = players
@@ -19,4 +20,10 @@ class GameViewModel : ViewModel() {
     }
 
     fun getPositionList() = positionList
+
+    fun setConfirmCount(count: Int) {
+        this.confirmCount = count
+    }
+
+    fun getConfirmCount() = confirmCount
 }

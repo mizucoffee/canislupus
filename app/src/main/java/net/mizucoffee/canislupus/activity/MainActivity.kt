@@ -1,9 +1,10 @@
-package net.mizucoffee.canislupus
+package net.mizucoffee.canislupus.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
+import net.mizucoffee.canislupus.R
 
 class MainActivity : AppCompatActivity() {
 

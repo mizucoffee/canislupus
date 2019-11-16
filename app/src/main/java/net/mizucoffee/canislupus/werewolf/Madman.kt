@@ -1,16 +1,19 @@
-package net.mizucoffee.canislupus.werewolf.position
+package net.mizucoffee.canislupus.werewolf
 
 import net.mizucoffee.canislupus.model.Player
-import net.mizucoffee.canislupus.werewolf.enumerate.Camp
-import net.mizucoffee.canislupus.werewolf.enumerate.Camp.*
+import net.mizucoffee.canislupus.enumerate.Camp
+import net.mizucoffee.canislupus.enumerate.Camp.*
 import net.mizucoffee.canislupus.werewolf.Position
+import net.mizucoffee.canislupus.enumerate.PositionEnum
 import net.mizucoffee.canislupus.werewolf.hasCamp
 
 class Madman : Position() {
     override val camp: Camp = MADMAN
     override var vote: String? = null
-    override val player: Player? = null
+    override var player: Player? = null
+    override val position: PositionEnum = PositionEnum.MADMAN
 
+    override fun getMiniMessage(positions: List<Position>): String? = null
     override fun checkWinLose(executed: List<Position>, positions: List<Position>): Int {
         return when {
             executed.hasCamp(TANNER) -> 0
