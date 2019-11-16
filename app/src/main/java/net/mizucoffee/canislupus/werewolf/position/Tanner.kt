@@ -1,8 +1,8 @@
 package net.mizucoffee.canislupus.werewolf.position
 
 import net.mizucoffee.canislupus.model.Player
-import net.mizucoffee.canislupus.werewolf.Camp
-import net.mizucoffee.canislupus.werewolf.Camp.*
+import net.mizucoffee.canislupus.werewolf.enumerate.Camp
+import net.mizucoffee.canislupus.werewolf.enumerate.Camp.*
 import net.mizucoffee.canislupus.werewolf.Position
 import net.mizucoffee.canislupus.werewolf.hasCamp
 

@@ -1,14 +1,15 @@
 package net.mizucoffee.canislupus.werewolf.position
 
 import net.mizucoffee.canislupus.model.Player
-import net.mizucoffee.canislupus.werewolf.Camp
-import net.mizucoffee.canislupus.werewolf.Camp.*
+import net.mizucoffee.canislupus.werewolf.enumerate.Camp
+import net.mizucoffee.canislupus.werewolf.enumerate.Camp.*
 import net.mizucoffee.canislupus.werewolf.Position
 import net.mizucoffee.canislupus.werewolf.hasCamp
 
-open class Villager(override val player: Player? = null) : Position() {
+open class Villager : Position() {
     override val camp: Camp = VILLAGER
     override var vote: String? = null
+    override val player: Player? = null
 
     override fun checkWinLose(executed: List<Position>, positions: List<Position>): Int {
         return when {

@@ -6,10 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.set_number_fragment.*
 import net.mizucoffee.canislupus.GameActivity
 
 import net.mizucoffee.canislupus.R
+import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.viewmodel.SetNumberViewModel
+import net.mizucoffee.canislupus.werewolf.Position
 
 class SetNumberFragment : Fragment() {
 
@@ -17,7 +21,7 @@ class SetNumberFragment : Fragment() {
         fun newInstance() = SetNumberFragment()
     }
 
-    private lateinit var viewModel: SetNumberViewModel
+    private lateinit var setNumberViewModel: SetNumberViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,10 +32,21 @@ class SetNumberFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SetNumberViewModel::class.java)
+        setNumberViewModel = ViewModelProviders.of(this).get(SetNumberViewModel::class.java)
 
-        val playerCount = (activity as GameActivity).gameViewModel.getPlayers().size
-
+        listenNextBtn(setNumberViewModel)
+        observePositionList(setNumberViewModel)
     }
 
+    fun listenNextBtn(viewModel: SetNumberViewModel) {
+        nextBtn.setOnClickListener {
+            viewModel.initPosition((activity as GameActivity).gameViewModel.getPlayers().size)
+        }
+    }
+
+    fun observePositionList(viewModel: SetNumberViewModel) {
+        viewModel.positionList.observe(this, Observer {
+            (activity as GameActivity).gameViewModel.setPositionList(it)
+        })
+    }
 }
