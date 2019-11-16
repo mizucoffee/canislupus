@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.confirm_player_fragment.*
+import kotlinx.android.synthetic.main.fragment_confirm_player.*
 import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
@@ -27,7 +27,7 @@ class ConfirmPositionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.confirm_player_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_confirm_player, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

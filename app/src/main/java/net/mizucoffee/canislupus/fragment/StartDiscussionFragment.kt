@@ -22,7 +22,7 @@ class StartDiscussionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.start_discussion_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_start_discussion, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.player_list_fragment.*
+import kotlinx.android.synthetic.main.fragment_player_list.*
 import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
@@ -30,7 +30,7 @@ class PlayerListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.player_list_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_player_list, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

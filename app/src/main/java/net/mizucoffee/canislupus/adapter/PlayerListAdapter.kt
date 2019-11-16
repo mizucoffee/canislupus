@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.player_list_item.view.*
+import kotlinx.android.synthetic.main.item_player_list.view.*
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.model.Player
 
@@ -17,7 +17,7 @@ class PlayerListAdapter: RecyclerView.Adapter<PlayerListAdapter.PlayerViewHolder
     private var listener: ((Int, Int) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.player_list_item,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_player_list,parent,false)
         return PlayerViewHolder(view)
     }
 

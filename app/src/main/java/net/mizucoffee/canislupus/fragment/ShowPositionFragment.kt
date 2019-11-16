@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.show_position_fragment.*
+import kotlinx.android.synthetic.main.fragment_show_position.*
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
@@ -27,7 +27,7 @@ class ShowPositionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.show_position_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_show_position, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

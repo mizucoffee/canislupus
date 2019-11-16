@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.set_number_fragment.*
+import kotlinx.android.synthetic.main.fragment_set_number.*
 import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
@@ -25,7 +25,7 @@ class SetNumberFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.set_number_fragment, container, false)
+        return inflater.inflate(R.layout.fragment_set_number, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
