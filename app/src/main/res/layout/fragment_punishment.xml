@@ -40,4 +40,12 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/bottom_button"
+        android:text="NEXT"
+        android:textColor="#fff"
+        android:textSize="20sp" />
 </LinearLayout>

@@ -11,6 +11,7 @@ import net.mizucoffee.canislupus.werewolf.hasCamp
 
 class Tanner : Position() {
 
+    override var truePlayer: Player? = null
     override val name: String = "吊人"
     override val camp: Camp = TANNER
     override var vote: String? = null

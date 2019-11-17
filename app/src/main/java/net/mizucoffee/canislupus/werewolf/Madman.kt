@@ -11,6 +11,7 @@ import net.mizucoffee.canislupus.werewolf.hasCamp
 
 class Madman : Position() {
 
+    override var truePlayer: Player? = null
     override val name: String = "狂人"
     override val camp: Camp = MADMAN
     override var vote: String? = null

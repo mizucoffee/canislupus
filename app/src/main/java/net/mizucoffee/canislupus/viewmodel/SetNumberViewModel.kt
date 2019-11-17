@@ -22,7 +22,10 @@ class SetNumberViewModel : ViewModel() {
             Position.positionInit[e]?.invoke()?.also { tPosList.add(it) }
         }
 
-        posList.forEachIndexed { i, e -> if (players.size > i) e.player = players[i] }
+        posList.forEachIndexed { i, e -> if (players.size > i) {
+            e.player = players[i]
+            e.truePlayer = players[i]
+        } }
         tPosList.forEachIndexed { i, e -> if (players.size > i) e.player = players[i] }
         positionList.postValue(posList)
         truePositionList.postValue(tPosList)

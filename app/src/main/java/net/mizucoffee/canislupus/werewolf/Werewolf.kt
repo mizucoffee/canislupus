@@ -11,6 +11,7 @@ import net.mizucoffee.canislupus.werewolf.hasCamp
 
 open class Werewolf : Position() {
 
+    override var truePlayer: Player? = null
     override val name: String = "人狼"
     override val camp: Camp = WEREWOLF
     override var vote: String? = null
@@ -23,9 +24,6 @@ open class Werewolf : Position() {
         val wolf = positions.filter { it.position == PositionEnum.WEREWOLF }
             .filter { it.player != null }
             .filter { it != this }
-        for (position in wolf) {
-            println(position)
-        }
         return if (wolf.isNotEmpty())
             wolf.map { it.player?.name }.joinToString("さんと") + "さんも人狼です"
         else

@@ -68,17 +68,16 @@ class AbilitySelectFragment : Fragment() {
                 setTextColor(Color.WHITE)
                 setOnClickListener {
                     activity?.let { context ->
+                        getGVM().setPositionList(pos.ability(getGVM().getPositionList(), data.key))
                         AlertDialog.Builder(context)
                             .setTitle("結果")
                             .setView(pos.abilityResult(getGVM().getPositionList(), data.key, context))
                             .setPositiveButton("OK") { _: DialogInterface, _: Int ->
-                                getGVM().setTruePositionList(pos.ability(getGVM().getTruePositionList(), data.key).toMutableList())
                                 (activity as GameActivity).gameViewModel.setConfirmCount((activity as GameActivity).gameViewModel.getConfirmCount() + 1)
                                 viewModel.next(
                                     getGVM().getConfirmCount(),
                                     getGVM().getPlayers().size
                                 )
-                                // TODO: 特殊技能発生後の配列を保管する
                             }
                             .setCancelable(false)
                             .show()

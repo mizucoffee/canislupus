@@ -6,9 +6,9 @@ import net.mizucoffee.canislupus.werewolf.Position
 
 class GameViewModel : ViewModel() {
     private lateinit var players: ArrayList<Player>
-    private lateinit var positionList: ArrayList<Position>
+    private lateinit var positionList: MutableList<Position>
     private lateinit var truePositionList: MutableList<Position>
-    private lateinit var punishList: MutableList<Position>
+    private lateinit var executeList: MutableList<Position>
     private var confirmCount: Int = 0
 
     fun setPlayers(players: ArrayList<Player>) {
@@ -17,7 +17,7 @@ class GameViewModel : ViewModel() {
 
     fun getPlayers() = players
 
-    fun setPositionList(positionList: ArrayList<Position>) {
+    fun setPositionList(positionList: MutableList<Position>) {
         this.positionList = positionList
     }
 
@@ -29,11 +29,11 @@ class GameViewModel : ViewModel() {
 
     fun getTruePositionList() = truePositionList
 
-    fun setPunishList(punishList: MutableList<Position>) {
-        this.punishList = punishList
+    fun setExecuteList(executeList: MutableList<Position>) {
+        this.executeList = executeList
     }
 
-    fun getPunishList() = punishList
+    fun getExecuteList() = executeList
 
     fun setConfirmCount(count: Int) {
         this.confirmCount = count
@@ -50,6 +50,12 @@ class GameViewModel : ViewModel() {
     fun findPositionById(id: String?): Position? {
         for (p in getPositionList())
             if (p.player?.id == id)
+                return p
+        return null
+    }
+    fun findTruePositionById(id: String?): Position? {
+        for (p in getPositionList())
+            if (p.truePlayer?.id == id)
                 return p
         return null
     }

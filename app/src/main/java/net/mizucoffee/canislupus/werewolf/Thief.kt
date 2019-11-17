@@ -18,11 +18,11 @@ class Thief : Villager() {
         positions: MutableList<Position>,
         selectedKey: String
     ): MutableList<Position> {
-        val me = player
-        val target = positions.find { it.player?.id == selectedKey }?.player
+        val me = truePlayer
+        val target = positions.find { it.truePlayer?.id == selectedKey }?.truePlayer
         return positions.map{
-            if (it.player?.id == me?.id) it.player = target
-            else if (it.player?.id == target?.id) it.player = me
+            if (it.truePlayer?.id == me?.id) it.truePlayer = target
+            else if (it.truePlayer?.id == target?.id) it.truePlayer = me
             it
         }.toMutableList()
     }
@@ -33,7 +33,7 @@ class Thief : Villager() {
         context: Context
     ): View? {
         val tv = TextView(context)
-        tv.text = "あなたは${positions.find { it.player?.id == selectedKey }?.name}になりました"
+        tv.text = "あなたは${positions.find { it.truePlayer?.id == player?.id }?.name}になりました"
         return tv
     }
 

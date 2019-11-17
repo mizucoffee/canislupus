@@ -9,6 +9,7 @@ import net.mizucoffee.canislupus.enumerate.PositionEnum
 
 open class Villager : Position() {
 
+    override var truePlayer: Player? = null
     override val name: String = "村人"
     override val camp: Camp = VILLAGER
     override var vote: String? = null
