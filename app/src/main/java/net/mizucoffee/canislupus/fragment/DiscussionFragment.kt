@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_discussion.*
 
 import net.mizucoffee.canislupus.R
+import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.viewmodel.DiscussionViewModel
 
 class DiscussionFragment : Fragment() {
@@ -33,6 +34,9 @@ class DiscussionFragment : Fragment() {
 
         startTimer(discussionViewModel)
         observeTimer(discussionViewModel)
+        observeTimerFinished(discussionViewModel)
+        listenNextBtn(discussionViewModel)
+        observeTransition(discussionViewModel)
     }
 
     fun startTimer(viewModel: DiscussionViewModel) {
@@ -45,4 +49,25 @@ class DiscussionFragment : Fragment() {
         })
     }
 
+    fun observeTimerFinished(viewModel: DiscussionViewModel) {
+        viewModel.countFinished.observe(this, Observer {
+            counter.text = "話し合い終了"
+            quiteBtn.isEnabled = false
+            trueBtn.isEnabled = false
+        })
+    }
+
+    fun listenNextBtn(viewModel: DiscussionViewModel) {
+        nextBtn.setOnClickListener {
+            (activity as GameActivity).gameViewModel.setConfirmCount(0)
+            viewModel.next()
+        }
+    }
+
+    fun observeTransition(viewModel: DiscussionViewModel) {
+        viewModel.transition.observe(this, Observer {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.gameFragmentLayout, CheckPlayerFragment.newInstance())?.commit()
+        })
+    }
 }

@@ -28,12 +28,13 @@
             android:gravity="center"
             android:text="02:19"
             android:textColor="#000000"
-            android:textSize="64sp" />
+            android:textSize="54sp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginTop="16dp"
             android:text="人数"
             android:textColor="#aaaaaa"
             android:textSize="32sp" />
@@ -42,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp">
 
             <LinearLayout
@@ -145,5 +146,19 @@
             android:textSize="20sp" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/nextBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/bottom_button"
+        android:paddingLeft="32dp"
+        android:paddingTop="16dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="16dp"
+        android:text="話し合い終了"
+        android:textColor="#fff"
+        android:textSize="20sp" />
 
 </LinearLayout>
