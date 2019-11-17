@@ -51,6 +51,8 @@ class PunishmentFragment : Fragment() {
         }
         today.text = if(punishList.isEmpty()) "本日は" else "本日処刑されたのは"
         punish.text = if(punishList.isEmpty()) "誰も処刑\nされません" else "${punishList.map { it.player?.name }.joinToString("さん \r") }さん"
+
+        getGVM().setPunishList(punishList)
     }
 
 }
