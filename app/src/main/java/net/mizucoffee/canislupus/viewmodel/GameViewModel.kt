@@ -26,4 +26,17 @@ class GameViewModel : ViewModel() {
     }
 
     fun getConfirmCount() = confirmCount
+
+    fun vote(playerId: String, targetId: String) {
+        positionList.forEachIndexed { i: Int, it: Position ->
+            if (it.player?.id == playerId) positionList[i].vote = targetId
+        }
+    }
+
+    fun findPositionById(id: String?): Position? {
+        for (p in getPositionList())
+            if (p.player?.id == id)
+                return p
+        return null
+    }
 }

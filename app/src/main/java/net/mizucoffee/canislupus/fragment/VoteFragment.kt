@@ -54,14 +54,26 @@ class VoteFragment : Fragment() {
 
             lp.setMargins(0, (16 * scale + 0.5f).toInt(), 0, 0)
             btn.layoutParams = lp
-            btn.setPadding((32 * scale + 0.5f).toInt(), (16 * scale + 0.5f).toInt(), (32 * scale + 0.5f).toInt(), (16 * scale + 0.5f).toInt())
+            btn.setPadding(
+                (32 * scale + 0.5f).toInt(),
+                (16 * scale + 0.5f).toInt(),
+                (32 * scale + 0.5f).toInt(),
+                (16 * scale + 0.5f).toInt()
+            )
             btn.setBackgroundResource(R.drawable.bottom_button)
             btn.textSize = 18f
             btn.setTextColor(Color.WHITE)
             btn.setOnClickListener {
-                viewModel.vote(position)
+                val player = pos.player
+                val target = position.player
+
+                if (target != null && player != null)
+                    (activity as GameActivity).gameViewModel.vote(player.id, target.id)
                 (activity as GameActivity).gameViewModel.setConfirmCount((activity as GameActivity).gameViewModel.getConfirmCount() + 1)
-                viewModel.next((activity as GameActivity).gameViewModel.getConfirmCount(), (activity as GameActivity).gameViewModel.getPlayers().size)
+                viewModel.next(
+                    (activity as GameActivity).gameViewModel.getConfirmCount(),
+                    (activity as GameActivity).gameViewModel.getPlayers().size
+                )
             }
 
             voteList.addView(btn)
@@ -73,11 +85,11 @@ class VoteFragment : Fragment() {
     fun observeTransition(viewModel: VoteViewModel) {
         viewModel.transition.observe(this, Observer {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            val next = if(it){
+            val next = if (it) {
                 CheckPlayerFragment.newInstance()
             } else {
                 (activity as GameActivity).gameViewModel.setConfirmCount(0)
-                StartDiscussionFragment.newInstance()
+                PunishmentFragment.newInstance()
             }
 
             transaction?.replace(R.id.gameFragmentLayout, next)?.commit()
