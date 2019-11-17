@@ -19,12 +19,15 @@ class Tanner : Position() {
     override val description: String =
         "【特殊能力】\n自分が吊られたら勝利です。\n\n【第三陣営の勝利条件】\n自分が吊られたら勝利となります。他のどの陣営にも属しません。"
 
-        override fun getMiniMessage(positions: List<Position>): String? = null
+    override fun getMiniMessage(positions: List<Position>): String? = null
     override fun checkWinLose(executed: List<Position>, positions: List<Position>): Int {
         return if (executed.hasCamp(TANNER)) 3 else 0
     }
 
-    override fun ability(positions: MutableList<Position>, selected: Int): List<Position> =
+    override fun ability(
+        positions: MutableList<Position>,
+        selectedKey: String
+    ): MutableList<Position> =
         positions
 
     override fun abilityResult(
@@ -34,6 +37,7 @@ class Tanner : Position() {
     ): View? = null
 
     override fun hasAbility(): Boolean = false
+    override fun shouldSelectList(): Boolean = false
     override fun getSelectList(positions: MutableList<Position>): Map<String, String>? = null
     override fun getSelectMessage(): String? = null
 }

@@ -22,7 +22,11 @@ abstract class Position {
 
     abstract fun checkWinLose(executed: List<Position>, positions: List<Position>): Int
 
-    abstract fun ability(positions: MutableList<Position>, selected: Int): List<Position>
+    abstract fun ability(
+        positions: MutableList<Position>,
+        selectedKey: String
+    ): MutableList<Position>
+
     abstract fun abilityResult(
         positions: MutableList<Position>,
         selectedKey: String,
@@ -30,6 +34,7 @@ abstract class Position {
     ): View?
 
     abstract fun hasAbility(): Boolean
+    abstract fun shouldSelectList(): Boolean
     abstract fun getSelectList(positions: MutableList<Position>): Map<String, String>?
     abstract fun getSelectMessage(): String?
 

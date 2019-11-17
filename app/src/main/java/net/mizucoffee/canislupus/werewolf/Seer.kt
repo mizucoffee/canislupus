@@ -13,7 +13,10 @@ class Seer : Villager() {
 
         override fun getMiniMessage(positions: List<Position>): String? = null
 
-    override fun ability(positions: MutableList<Position>, selected: Int): List<Position> =
+    override fun ability(
+        positions: MutableList<Position>,
+        selectedKey: String
+    ): MutableList<Position> =
         positions
 
     override fun abilityResult(
@@ -28,16 +31,21 @@ class Seer : Villager() {
                 tv.text = "${it.name}さんは${p.name}でした"
             }
         }
+        if(pos == null) {
+            val list = positions.filter { it.player == null }.map { it.name }
+            tv.text = "場のカードは${list.joinToString("と") }でした"
+        }
         return tv
     }
 
     override fun hasAbility(): Boolean = true
+    override fun shouldSelectList(): Boolean = true
     override fun getSelectList(positions: MutableList<Position>): Map<String, String>? {
         val map = mutableMapOf<String, String>()
         positions
             .filter { it.player != null }
             .filter { it.player?.id != player?.id }
-            .forEach { map["${it.player?.id}"] = it.name }
+            .forEach { map["${it.player?.id}"] = "${it.player?.name}" }
         map["OTHER"] = "場のカード"
         return map
     }

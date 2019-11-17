@@ -40,7 +40,10 @@ open class Werewolf : Position() {
         }
     }
 
-    override fun ability(positions: MutableList<Position>, selected: Int): List<Position> =
+    override fun ability(
+        positions: MutableList<Position>,
+        selectedKey: String
+    ): MutableList<Position> =
         positions
 
     override fun abilityResult(
@@ -50,6 +53,7 @@ open class Werewolf : Position() {
     ): View? = null
 
     override fun hasAbility(): Boolean = false
+    override fun shouldSelectList(): Boolean = false
     override fun getSelectList(positions: MutableList<Position>): Map<String, String>? = null
     override fun getSelectMessage(): String? = null
 }

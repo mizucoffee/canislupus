@@ -14,6 +14,7 @@ import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.viewmodel.ShowPositionViewModel
 import net.mizucoffee.canislupus.werewolf.Position
+import android.content.DialogInterface
 
 class ShowPositionFragment : Fragment() {
 
@@ -22,6 +23,8 @@ class ShowPositionFragment : Fragment() {
     }
 
     private lateinit var showPositionViewModel: ShowPositionViewModel
+
+    fun getGVM() = (activity as GameActivity).gameViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,8 +37,8 @@ class ShowPositionFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         showPositionViewModel = ViewModelProviders.of(this).get(ShowPositionViewModel::class.java)
 
-        val count = (activity as GameActivity).gameViewModel.getConfirmCount()
-        val positions = (activity as GameActivity).gameViewModel.getPositionList()
+        val count = getGVM().getConfirmCount()
+        val positions = getGVM().getPositionList()
         val pos = positions[count]
 
         camp.text = pos.camp.campName
@@ -44,15 +47,14 @@ class ShowPositionFragment : Fragment() {
         miniDesctiption.text = pos.getMiniMessage(positions)
 
         listenDescriptionBtn(pos)
-        listenNextBtn(showPositionViewModel)
+        listenNextBtn(showPositionViewModel, pos)
         observeTransition(showPositionViewModel)
     }
 
     fun listenDescriptionBtn(pos: Position) {
         aboutPosition.setOnClickListener {
-            val con = activity
-            con?.let {
-                AlertDialog.Builder(con)
+            activity?.let {
+                AlertDialog.Builder(it)
                     .setTitle(pos.name)
                     .setMessage(pos.description)
                     .setPositiveButton("OK", null)
@@ -61,23 +63,44 @@ class ShowPositionFragment : Fragment() {
         }
     }
 
-    fun listenNextBtn(viewModel: ShowPositionViewModel) {
+    fun listenNextBtn(viewModel: ShowPositionViewModel, pos: Position) {
         nextBtn.setOnClickListener {
-            (activity as GameActivity).gameViewModel.setConfirmCount((activity as GameActivity).gameViewModel.getConfirmCount() + 1)
-            viewModel.next((activity as GameActivity).gameViewModel.getConfirmCount(), (activity as GameActivity).gameViewModel.getPlayers().size)
+            if (pos.hasAbility() && !pos.shouldSelectList()) {
+                getGVM().setTruePositionList(pos.ability(getGVM().getPositionList(), ""))
+                activity?.let {
+                    AlertDialog.Builder(it)
+                        .setTitle("結果")
+                        .setView(pos.abilityResult(getGVM().getPositionList(), "", it))
+                        .setPositiveButton("OK") { dialogInterface: DialogInterface, i: Int ->
+                            viewModel.next(
+                                pos,
+                                getGVM().getConfirmCount(),
+                                getGVM().getPlayers().size
+                            )
+                        }
+                        .setCancelable(false)
+                        .show()
+                }
+            } else {
+                viewModel.next(pos, getGVM().getConfirmCount(), getGVM().getPlayers().size)
+            }
         }
     }
 
     fun observeTransition(viewModel: ShowPositionViewModel) {
         viewModel.transition.observe(this, Observer {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            val next = if(it){
-                ConfirmPositionFragment.newInstance()
-            } else {
-                (activity as GameActivity).gameViewModel.setConfirmCount(0)
-                StartDiscussionFragment.newInstance()
+            val next = when (it) {
+                0 -> AbilitySelectFragment.newInstance()
+                1 -> {
+                    getGVM().setConfirmCount(getGVM().getConfirmCount() + 1)
+                    ConfirmPositionFragment.newInstance()
+                }
+                else -> {
+                    getGVM().setConfirmCount(0)
+                    StartDiscussionFragment.newInstance()
+                }
             }
-
             transaction?.replace(R.id.gameFragmentLayout, next)?.commit()
         })
     }

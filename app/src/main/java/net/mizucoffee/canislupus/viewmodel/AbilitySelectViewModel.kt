@@ -2,9 +2,8 @@ package net.mizucoffee.canislupus.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import net.mizucoffee.canislupus.werewolf.Position
 
-class VoteViewModel : ViewModel() {
+class AbilitySelectViewModel : ViewModel() {
     val transition = MutableLiveData<Boolean>()
 
     fun next(confirmCount: Int, playerCount: Int) {

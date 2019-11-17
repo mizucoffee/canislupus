@@ -12,6 +12,7 @@ import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.viewmodel.SetNumberViewModel
+import net.mizucoffee.canislupus.werewolf.Position
 
 class SetNumberFragment : Fragment() {
 
@@ -47,6 +48,9 @@ class SetNumberFragment : Fragment() {
     fun observePositionList(viewModel: SetNumberViewModel) {
         viewModel.positionList.observe(this, Observer {
             (activity as GameActivity).gameViewModel.setPositionList(it)
+        })
+        viewModel.truePositionList.observe(this, Observer {
+            (activity as GameActivity).gameViewModel.setTruePositionList(it)
         })
     }
 

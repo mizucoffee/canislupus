@@ -59,6 +59,8 @@ class DiscussionFragment : Fragment() {
 
     fun listenNextBtn(viewModel: DiscussionViewModel) {
         nextBtn.setOnClickListener {
+            println((activity as GameActivity).gameViewModel.getPositionList())
+            println((activity as GameActivity).gameViewModel.getTruePositionList())
             (activity as GameActivity).gameViewModel.setConfirmCount(0)
             viewModel.next()
         }

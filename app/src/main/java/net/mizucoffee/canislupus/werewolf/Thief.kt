@@ -14,13 +14,17 @@ class Thief : Villager() {
 
     override fun getMiniMessage(positions: List<Position>): String? = null
 
-    override fun ability(positions: MutableList<Position>, selected: Int): List<Position> {
-        positions.map {
-            if (it.player?.id == player?.id) it.player = positions[selected].player
+    override fun ability(
+        positions: MutableList<Position>,
+        selectedKey: String
+    ): MutableList<Position> {
+        val me = player
+        val target = positions.find { it.player?.id == selectedKey }?.player
+        return positions.map{
+            if (it.player?.id == me?.id) it.player = target
+            else if (it.player?.id == target?.id) it.player = me
             it
-        }
-        positions[selected].player = player
-        return positions
+        }.toMutableList()
     }
 
     override fun abilityResult(
@@ -34,12 +38,13 @@ class Thief : Villager() {
     }
 
     override fun hasAbility(): Boolean = true
+    override fun shouldSelectList(): Boolean = true
     override fun getSelectList(positions: MutableList<Position>): Map<String, String>? {
         val map = mutableMapOf<String, String>()
         positions
             .filter { it.player != null }
             .filter { it.player?.id != player?.id }
-            .forEach { map["${it.player?.id}"] = it.name }
+            .forEach { map["${it.player?.id}"] = "${it.player?.name}" }
         return map
     }
 
