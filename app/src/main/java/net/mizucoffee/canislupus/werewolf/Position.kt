@@ -1,5 +1,7 @@
 package net.mizucoffee.canislupus.werewolf
 
+import android.content.Context
+import android.view.View
 import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.enumerate.Camp
 import net.mizucoffee.canislupus.enumerate.PositionEnum
@@ -9,16 +11,27 @@ abstract class Position {
 
     // 投票先とか管理
     // 1試合単位で使う情報を保管
+    abstract val name: String
     abstract var player: Player?
     abstract var vote: String?
     abstract val position: PositionEnum
     abstract val camp: Camp
+    abstract val description: String
 
     abstract fun getMiniMessage(positions: List<Position>): String?
 
     abstract fun checkWinLose(executed: List<Position>, positions: List<Position>): Int
 
-    abstract fun ability(positions: List<Position>): String?
+    abstract fun ability(positions: MutableList<Position>, selected: Int): List<Position>
+    abstract fun abilityResult(
+        positions: MutableList<Position>,
+        selectedKey: String,
+        context: Context
+    ): View?
+
+    abstract fun hasAbility(): Boolean
+    abstract fun getSelectList(positions: MutableList<Position>): Map<String, String>?
+    abstract fun getSelectMessage(): String?
 
     override fun toString(): String {
         return "Position = \"$position\", Player = \"${player?.name}\", Camp = \"$camp\""

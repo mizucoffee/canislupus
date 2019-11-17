@@ -39,7 +39,7 @@ class ShowPositionFragment : Fragment() {
         val pos = positions[count]
 
         camp.text = pos.camp.campName
-        position.text = pos.position.positionName
+        position.text = pos.name
         if (pos.getMiniMessage(positions) == null) miniDesctiption.visibility = View.GONE
         miniDesctiption.text = pos.getMiniMessage(positions)
 
@@ -53,8 +53,8 @@ class ShowPositionFragment : Fragment() {
             val con = activity
             con?.let {
                 AlertDialog.Builder(con)
-                    .setTitle(pos.position.positionName)
-                    .setMessage(pos.position.description)
+                    .setTitle(pos.name)
+                    .setMessage(pos.description)
                     .setPositiveButton("OK", null)
                     .show()
             }
