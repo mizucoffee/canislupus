@@ -2,6 +2,7 @@ package net.mizucoffee.canislupus.werewolf
 
 import android.content.Context
 import android.view.View
+import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.enumerate.Camp
 import net.mizucoffee.canislupus.enumerate.Camp.*
@@ -19,6 +20,9 @@ class Tanner : Position() {
     override val position: PositionEnum = PositionEnum.TANNER
     override val description: String =
         "【特殊能力】\n自分が吊られたら勝利です。\n\n【第三陣営の勝利条件】\n自分が吊られたら勝利となります。他のどの陣営にも属しません。"
+    override val symbol: Int = R.drawable.tanner
+    override val defaultPlayers: Map<Int, Int> = mapOf(3 to 0, 4 to 0, 5 to 1, 6 to 1)
+    override val isRequired: Boolean = false
 
     override fun getMiniMessage(positions: List<Position>): String? = null
     override fun checkWinLose(executed: List<Position>, positions: List<Position>): Int {

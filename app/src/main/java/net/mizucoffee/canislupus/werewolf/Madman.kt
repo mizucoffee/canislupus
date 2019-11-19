@@ -2,6 +2,7 @@ package net.mizucoffee.canislupus.werewolf
 
 import android.content.Context
 import android.view.View
+import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.enumerate.Camp
 import net.mizucoffee.canislupus.enumerate.Camp.*
@@ -19,6 +20,9 @@ class Madman : Position() {
     override val position: PositionEnum = PositionEnum.MADMAN
     override val description: String =
         "【特殊能力】\n人狼陣営の村人で、特殊能力はありません。\n自分が殺されても人狼が生き残れば勝利となります。\n\n【人狼陣営の勝利条件】\n人狼が吊られなければ勝利です。ただし、吊人が吊られた　場合は吊人の単独勝利となります。"
+    override val symbol: Int = R.drawable.madman
+    override val defaultPlayers: Map<Int, Int> = mapOf(3 to 1, 4 to 1, 5 to 1, 6 to 1)
+    override val isRequired: Boolean = false
 
     override fun getMiniMessage(positions: List<Position>): String? = null
     override fun checkWinLose(executed: List<Position>, positions: List<Position>): Int {

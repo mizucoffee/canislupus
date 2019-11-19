@@ -36,8 +36,8 @@ class ResultFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ResultViewModel::class.java)
 
-        result.text = "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getTruePositionList()).result}"
-        sub.text = "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getTruePositionList()).sub}"
+        result.text = "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getPositionList()).result}"
+        sub.text = "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getPositionList()).sub}"
 
         listenNextBtn(viewModel)
         observeTransition(viewModel)

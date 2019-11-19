@@ -19,6 +19,9 @@ abstract class Position {
     abstract val position: PositionEnum
     abstract val camp: Camp
     abstract val description: String
+    abstract val symbol: Int
+    abstract val defaultPlayers: Map<Int, Int>
+    abstract val isRequired: Boolean
 
     abstract fun getMiniMessage(positions: List<Position>): String?
 

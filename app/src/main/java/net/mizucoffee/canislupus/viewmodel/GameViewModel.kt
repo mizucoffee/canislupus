@@ -7,7 +7,6 @@ import net.mizucoffee.canislupus.werewolf.Position
 class GameViewModel : ViewModel() {
     private lateinit var players: ArrayList<Player>
     private lateinit var positionList: MutableList<Position>
-    private lateinit var truePositionList: MutableList<Position>
     private lateinit var executeList: MutableList<Position>
     private var confirmCount: Int = 0
 
@@ -22,12 +21,6 @@ class GameViewModel : ViewModel() {
     }
 
     fun getPositionList() = positionList
-
-    fun setTruePositionList(truePositionList: MutableList<Position>) {
-        this.truePositionList = truePositionList
-    }
-
-    fun getTruePositionList() = truePositionList
 
     fun setExecuteList(executeList: MutableList<Position>) {
         this.executeList = executeList

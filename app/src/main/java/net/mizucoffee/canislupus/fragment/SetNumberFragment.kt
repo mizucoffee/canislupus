@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_set_number.*
 import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
+import net.mizucoffee.canislupus.adapter.PositionAdapter
 import net.mizucoffee.canislupus.viewmodel.SetNumberViewModel
 import net.mizucoffee.canislupus.werewolf.Position
 
@@ -33,6 +35,11 @@ class SetNumberFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setNumberViewModel = ViewModelProviders.of(this).get(SetNumberViewModel::class.java)
 
+        positionRecycler.apply {
+            layoutManager = LinearLayoutManager(activity?.applicationContext)
+            adapter = PositionAdapter((activity as GameActivity).gameViewModel.getPlayers().size)
+        }
+
         listenNextBtn(setNumberViewModel)
         observePositionList(setNumberViewModel)
         observeTransition(setNumberViewModel)
@@ -40,7 +47,7 @@ class SetNumberFragment : Fragment() {
 
     fun listenNextBtn(viewModel: SetNumberViewModel) {
         nextBtn.setOnClickListener {
-            viewModel.initPosition((activity as GameActivity).gameViewModel.getPlayers())
+            viewModel.initPosition((positionRecycler.adapter as PositionAdapter).countList, (activity as GameActivity).gameViewModel.getPlayers())
             viewModel.next()
         }
     }
@@ -48,9 +55,6 @@ class SetNumberFragment : Fragment() {
     fun observePositionList(viewModel: SetNumberViewModel) {
         viewModel.positionList.observe(this, Observer {
             (activity as GameActivity).gameViewModel.setPositionList(it)
-        })
-        viewModel.truePositionList.observe(this, Observer {
-            (activity as GameActivity).gameViewModel.setTruePositionList(it)
         })
     }
 

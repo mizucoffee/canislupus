@@ -2,6 +2,7 @@ package net.mizucoffee.canislupus.werewolf
 
 import android.content.Context
 import android.view.View
+import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.enumerate.Camp
 import net.mizucoffee.canislupus.enumerate.Camp.*
@@ -19,7 +20,10 @@ open class Werewolf : Position() {
     override val position: PositionEnum = PositionEnum.WEREWOLF
     override val description: String =
         "【特殊能力】\n特殊能力はありません。\n\n【人狼陣営の勝利条件】\n人狼が吊られなければ勝利です。ただし、吊人が吊られた　場合は吊人の単独勝利となります。"
+    override val symbol: Int = R.drawable.werewolf
+    override val defaultPlayers: Map<Int, Int> = mapOf(3 to 1, 4 to 2, 5 to 2, 6 to 2)
 
+    override val isRequired: Boolean = true
     override fun getMiniMessage(positions: List<Position>): String? {
         val wolf = positions.filter { it.position == PositionEnum.WEREWOLF }
             .filter { it.player != null }

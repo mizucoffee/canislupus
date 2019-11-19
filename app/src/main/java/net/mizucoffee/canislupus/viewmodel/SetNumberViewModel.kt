@@ -11,24 +11,20 @@ class SetNumberViewModel : ViewModel() {
     val truePositionList = MutableLiveData<ArrayList<Position>>()
     val transitionLiveData = MutableLiveData<String>()
 
-    fun initPosition(players: ArrayList<Player>) {
+    fun initPosition(playerCounts: Map<PositionEnum, Int>, players: List<Player>) {
         val posList: ArrayList<Position> = ArrayList()
-        val tPosList: ArrayList<Position> = ArrayList()
 
         val l = mutableListOf<PositionEnum>()
-        Position.defaultSet[players.size]?.forEach { (k, v) -> for (i in 1..v) l.add(k) }
+        playerCounts.forEach { (k, v) -> for (i in 1..v) l.add(k) }
         l.shuffled().forEach { e ->
             Position.positionInit[e]?.invoke()?.also { posList.add(it) }
-            Position.positionInit[e]?.invoke()?.also { tPosList.add(it) }
         }
 
         posList.forEachIndexed { i, e -> if (players.size > i) {
             e.player = players[i]
             e.truePlayer = players[i]
         } }
-        tPosList.forEachIndexed { i, e -> if (players.size > i) e.player = players[i] }
         positionList.postValue(posList)
-        truePositionList.postValue(tPosList)
     }
 
     fun next() {

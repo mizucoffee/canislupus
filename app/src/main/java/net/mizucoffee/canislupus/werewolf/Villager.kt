@@ -2,6 +2,7 @@ package net.mizucoffee.canislupus.werewolf
 
 import android.content.Context
 import android.view.View
+import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.enumerate.Camp
 import net.mizucoffee.canislupus.enumerate.Camp.*
@@ -17,7 +18,10 @@ open class Villager : Position() {
     override val position: PositionEnum = PositionEnum.VILLAGER
     override val description: String =
         "【特殊能力】\n特殊能力はありません。\n\n【村人陣営の勝利条件】\n人狼を吊ることができれば勝利です。ただし、吊人を吊ってしまった場合はその時点で敗北となります。"
+    override val symbol: Int = R.drawable.villager
+    override val defaultPlayers: Map<Int, Int> = mapOf(3 to 3, 4 to 1, 5 to 1, 6 to 1)
 
+    override val isRequired: Boolean = false
     override fun getMiniMessage(positions: List<Position>): String? = null
 
     override fun checkWinLose(executed: List<Position>, positions: List<Position>): Int {

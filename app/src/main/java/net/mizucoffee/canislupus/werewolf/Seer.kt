@@ -3,6 +3,7 @@ package net.mizucoffee.canislupus.werewolf
 import android.content.Context
 import android.view.View
 import android.widget.TextView
+import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.enumerate.PositionEnum
 
 class Seer : Villager() {
@@ -10,8 +11,11 @@ class Seer : Villager() {
     override val position: PositionEnum = PositionEnum.SEER
     override val description: String =
         "【特殊能力】\n自分以外の誰か1人、または余っているカード2枚を見る事ができます。\n\n【村人陣営の勝利条件】\n人狼を吊ることができれば勝利です。ただし、吊人を吊ってしまった場合はその時点で敗北となります。"
+    override val symbol: Int = R.drawable.seer
+    override val defaultPlayers: Map<Int, Int> = mapOf(3 to 1, 4 to 1, 5 to 1, 6 to 1)
+    override val isRequired: Boolean = false
 
-        override fun getMiniMessage(positions: List<Position>): String? = null
+    override fun getMiniMessage(positions: List<Position>): String? = null
 
     override fun ability(
         positions: MutableList<Position>,
@@ -31,9 +35,9 @@ class Seer : Villager() {
                 tv.text = "${it.name}さんは${p.name}でした"
             }
         }
-        if(pos == null) {
+        if (pos == null) {
             val list = positions.filter { it.player == null }.map { it.name }
-            tv.text = "場のカードは${list.joinToString("と") }でした"
+            tv.text = "場のカードは${list.joinToString("と")}でした"
         }
         return tv
     }

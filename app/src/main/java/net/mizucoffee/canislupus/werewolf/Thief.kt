@@ -3,6 +3,7 @@ package net.mizucoffee.canislupus.werewolf
 import android.content.Context
 import android.view.View
 import android.widget.TextView
+import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.enumerate.PositionEnum
 
 class Thief : Villager() {
@@ -11,6 +12,9 @@ class Thief : Villager() {
     override val position: PositionEnum = PositionEnum.THIEF
     override val description: String =
         "【特殊能力】\n自分以外の誰か1人を選び、自分とその人の役職を入れ替えます。人狼陣営と入れ替わった場合、お互いの勝利条件も入れ替わります。\n\n【村人陣営の勝利条件】\n人狼を吊ることができれば勝利です。ただし、吊人を吊ってしまった場合はその時点で敗北となります。\n\n人狼が吊られなければ勝利です。ただし、吊人が吊られた　場合は吊人の単独勝利となります。"
+    override val symbol: Int = R.drawable.thief
+    override val defaultPlayers: Map<Int, Int> = mapOf(3 to 0, 4 to 1, 5 to 1, 6 to 1)
+    override val isRequired: Boolean = false
 
     override fun getMiniMessage(positions: List<Position>): String? = null
 

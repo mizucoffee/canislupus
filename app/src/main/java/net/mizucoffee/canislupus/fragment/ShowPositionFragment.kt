@@ -66,7 +66,7 @@ class ShowPositionFragment : Fragment() {
     fun listenNextBtn(viewModel: ShowPositionViewModel, pos: Position) {
         nextBtn.setOnClickListener {
             if (pos.hasAbility() && !pos.shouldSelectList()) {
-                getGVM().setTruePositionList(pos.ability(getGVM().getPositionList(), ""))
+                getGVM().setPositionList(pos.ability(getGVM().getPositionList(), ""))
                 activity?.let {
                     AlertDialog.Builder(it)
                         .setTitle("結果")
