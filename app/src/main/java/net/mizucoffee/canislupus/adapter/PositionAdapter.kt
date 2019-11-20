@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_position.view.*
 import net.mizucoffee.canislupus.R
@@ -65,4 +66,9 @@ class PositionAdapter(private val playerCount: Int) :
         val posName: TextView = v.name
         val btn: List<Button> = listOf(v.btn0, v.btn1, v.btn2)
     }
+}
+
+@BindingAdapter("playerListAdapter")
+fun RecyclerView.setAdapter(adapter: PositionAdapter) {
+    this.adapter = adapter
 }

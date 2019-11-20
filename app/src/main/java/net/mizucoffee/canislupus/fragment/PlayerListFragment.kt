@@ -52,13 +52,13 @@ class PlayerListFragment : Fragment() {
     }
 
     private fun observeToast(viewModel: PlayerListViewModel) {
-        viewModel.toastLiveData.observe(this, Observer {
+        viewModel.toast.observe(this, Observer {
             Toast.makeText(activity?.applicationContext, it, Toast.LENGTH_SHORT).show()
         })
     }
 
     private fun observeTransition(viewModel: PlayerListViewModel) {
-        viewModel.transitionLiveData.observe(this, Observer {
+        viewModel.transition.observe(this, Observer {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.gameFragmentLayout, SetNumberFragment.newInstance())?.commit()
         })

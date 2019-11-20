@@ -8,8 +8,7 @@ import net.mizucoffee.canislupus.werewolf.Position
 
 class SetNumberViewModel : ViewModel() {
     val positionList = MutableLiveData<ArrayList<Position>>()
-    val truePositionList = MutableLiveData<ArrayList<Position>>()
-    val transitionLiveData = MutableLiveData<String>()
+    val transition = MutableLiveData<Int>()
 
     fun initPosition(playerCounts: Map<PositionEnum, Int>, players: List<Player>) {
         val posList: ArrayList<Position> = ArrayList()
@@ -20,14 +19,16 @@ class SetNumberViewModel : ViewModel() {
             Position.positionInit[e]?.invoke()?.also { posList.add(it) }
         }
 
-        posList.forEachIndexed { i, e -> if (players.size > i) {
-            e.player = players[i]
-            e.truePlayer = players[i]
-        } }
+        posList.forEachIndexed { i, e ->
+            if (players.size > i) {
+                e.player = players[i]
+                e.truePlayer = players[i]
+            }
+        }
         positionList.postValue(posList)
     }
 
     fun next() {
-        transitionLiveData.postValue("s")
+        transition.postValue(0)
     }
 }

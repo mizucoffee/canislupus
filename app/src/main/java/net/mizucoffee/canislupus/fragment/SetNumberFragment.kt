@@ -13,6 +13,7 @@ import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.adapter.PositionAdapter
+import net.mizucoffee.canislupus.databinding.FragmentSetNumberBinding
 import net.mizucoffee.canislupus.viewmodel.SetNumberViewModel
 
 class SetNumberFragment : Fragment() {
@@ -21,34 +22,26 @@ class SetNumberFragment : Fragment() {
         fun newInstance() = SetNumberFragment()
     }
 
-    private lateinit var vm: SetNumberViewModel
     private fun getGVM() = (activity as GameActivity).gameViewModel
+    private lateinit var binding: FragmentSetNumberBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_set_number, container, false)
+        binding = FragmentSetNumberBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this).get(SetNumberViewModel::class.java)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        vm = ViewModelProviders.of(this).get(SetNumberViewModel::class.java)
 
         positionRecycler.apply {
             layoutManager = LinearLayoutManager(activity?.applicationContext)
             adapter = PositionAdapter(getGVM().getPlayers().size)
         }
 
-        listenNextBtn(vm)
-        observePositionList(vm)
-        observeTransition(vm)
-    }
-
-    fun listenNextBtn(viewModel: SetNumberViewModel) {
-        nextBtn.setOnClickListener {
-            viewModel.initPosition(
-                (positionRecycler.adapter as PositionAdapter).countList,
-                getGVM().getPlayers()
-            )
-            viewModel.next()
+        binding.viewModel?.also {
+            observePositionList(it)
+            observeTransition(it)
         }
     }
 
@@ -59,7 +52,11 @@ class SetNumberFragment : Fragment() {
     }
 
     fun observeTransition(viewModel: SetNumberViewModel) {
-        viewModel.transitionLiveData.observe(this, Observer {
+        viewModel.transition.observe(this, Observer {
+            viewModel.initPosition(
+                (positionRecycler.adapter as PositionAdapter).countList,
+                getGVM().getPlayers()
+            )
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.gameFragmentLayout, ConfirmPositionFragment.newInstance())
                 ?.commit()

@@ -10,10 +10,8 @@ import net.mizucoffee.canislupus.enumerate.Winner
 
 abstract class Position {
 
-    // 投票先とか管理
-    // 1試合単位で使う情報を保管
     abstract val name: String
-    abstract var player: Player? // = このカードの所有者
+    abstract var player: Player?
     abstract var truePlayer: Player?
     abstract var vote: String?
     abstract val position: PositionEnum
@@ -102,13 +100,11 @@ abstract class Position {
                     if(executed.hasCamp(Camp.MADMAN)) return Winner.WEREWOLF_MADMAN
                     return Winner.WEREWOLF_NORMAL
                 }
-            } else { // 平和村
+            } else {
                 if (players.hasCamp(Camp.TANNER)) return Winner.VILLAGER_TANNER
                 if (executed.isEmpty()) return Winner.VILLAGER_PEACE
                 return Winner.WEREWOLF_PEACE
             }
         }
     }
-
-    // 勝敗判定時の調整（怪盗）関数
 }

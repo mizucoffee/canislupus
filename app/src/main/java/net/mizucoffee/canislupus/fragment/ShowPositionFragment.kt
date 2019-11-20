@@ -15,6 +15,7 @@ import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.viewmodel.ShowPositionViewModel
 import net.mizucoffee.canislupus.werewolf.Position
 import android.content.DialogInterface
+import net.mizucoffee.canislupus.databinding.FragmentShowPositionBinding
 
 class ShowPositionFragment : Fragment() {
 
@@ -22,34 +23,33 @@ class ShowPositionFragment : Fragment() {
         fun newInstance() = ShowPositionFragment()
     }
 
-    private lateinit var showPositionViewModel: ShowPositionViewModel
     private fun getGVM() = (activity as GameActivity).gameViewModel
+    private lateinit var binding: FragmentShowPositionBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_show_position, container, false)
+        binding = FragmentShowPositionBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this).get(ShowPositionViewModel::class.java)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        showPositionViewModel = ViewModelProviders.of(this).get(ShowPositionViewModel::class.java)
+        binding.viewModel = ViewModelProviders.of(this).get(ShowPositionViewModel::class.java)
 
         val count = getGVM().getConfirmCount()
         val positions = getGVM().getPositionList()
-        val pos = positions[count]
+        binding.viewModel?.position = positions[count]
+        binding.viewModel?.miniMessage = positions[count].getMiniMessage(positions)
 
-        camp.text = pos.camp.campName
-        position.text = pos.name
-        if (pos.getMiniMessage(positions) == null) miniDesctiption.visibility = View.GONE
-        miniDesctiption.text = pos.getMiniMessage(positions)
-
-        listenDescriptionBtn(pos)
-        listenNextBtn(showPositionViewModel, pos)
-        observeTransition(showPositionViewModel)
+        binding.viewModel?.also {
+            observeAboutPosition(it, positions[count])
+            observeTransition(it, positions[count])
+        }
     }
 
-    fun listenDescriptionBtn(pos: Position) {
-        aboutPosition.setOnClickListener {
-            activity?.let {
+    private fun observeAboutPosition(viewModel: ShowPositionViewModel, pos: Position) {
+        viewModel.aboutPosition.observe(this, Observer {
+            activity?.also {
                 AlertDialog.Builder(it).apply {
                     setTitle(pos.name)
                     setMessage(pos.description)
@@ -57,48 +57,40 @@ class ShowPositionFragment : Fragment() {
                     show()
                 }
             }
-        }
+        })
     }
 
-    fun listenNextBtn(viewModel: ShowPositionViewModel, pos: Position) {
-        nextBtn.setOnClickListener {
+    fun observeTransition(viewModel: ShowPositionViewModel, pos: Position) {
+        viewModel.transition.observe(this, Observer {
             if (pos.hasAbility() && !pos.shouldSelectList()) {
                 getGVM().setPositionList(pos.ability(getGVM().getPositionList(), ""))
                 activity?.let {
                     AlertDialog.Builder(it)
                         .setTitle("結果")
                         .setView(pos.abilityResult(getGVM().getPositionList(), "", it))
-                        .setPositiveButton("OK") { dialogInterface: DialogInterface, i: Int ->
-                            viewModel.next(
-                                pos,
-                                getGVM().getConfirmCount(),
-                                getGVM().getPlayers().size
-                            )
-                        }
+                        .setPositiveButton("OK") { _: DialogInterface, _: Int -> transition(pos) }
                         .setCancelable(false)
                         .show()
                 }
             } else {
-                viewModel.next(pos, getGVM().getConfirmCount(), getGVM().getPlayers().size)
+                transition(pos)
             }
-        }
+        })
     }
 
-    fun observeTransition(viewModel: ShowPositionViewModel) {
-        viewModel.transition.observe(this, Observer {
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            val next = when (it) {
-                0 -> AbilitySelectFragment.newInstance()
-                1 -> {
-                    getGVM().setConfirmCount(getGVM().getConfirmCount() + 1)
-                    ConfirmPositionFragment.newInstance()
-                }
-                else -> {
-                    getGVM().setConfirmCount(0)
-                    StartDiscussionFragment.newInstance()
-                }
+    fun transition(pos: Position) {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        val next = when {
+            pos.hasAbility() && pos.shouldSelectList() -> AbilitySelectFragment.newInstance()
+            getGVM().getConfirmCount() + 1 < getGVM().getPlayers().size -> {
+                getGVM().setConfirmCount(getGVM().getConfirmCount() + 1)
+                ConfirmPositionFragment.newInstance()
             }
-            transaction?.replace(R.id.gameFragmentLayout, next)?.commit()
-        })
+            else -> {
+                getGVM().setConfirmCount(0)
+                StartDiscussionFragment.newInstance()
+            }
+        }
+        transaction?.replace(R.id.gameFragmentLayout, next)?.commit()
     }
 }

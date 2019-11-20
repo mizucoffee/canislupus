@@ -1,30 +1,33 @@
 package net.mizucoffee.canislupus.viewmodel
 
+import android.os.Handler
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import java.util.*
 import kotlin.concurrent.schedule
 
 class DiscussionViewModel : ViewModel() {
-    val count = MutableLiveData<Int>()
-    val countFinished = MutableLiveData<Int>()
-    val transition = MutableLiveData<String>()
+    val transition = MutableLiveData<Int>()
+    var count = 60 * 3
+    var counterText = MutableLiveData<String>()
+    var finished = false
 
     init {
-        count.value = 60 * 3
+        counterText.postValue("${(count / 60).toString().padStart(2, '0')}:${(count % 60).toString().padStart(2, '0')}")
     }
+
     fun next() {
-        transition.postValue( "s" )
+        transition.postValue( 0 )
     }
 
     fun startTimer() {
         Timer().schedule(1000, 1000) {
-            count.value?.let {
-                count.postValue(it - 1)
-                if(it - 1 <= 0) {
-                    this.cancel()
-                    countFinished.postValue(0)
-                }
+            count -= 1
+            counterText.postValue("${(count / 60).toString().padStart(2, '0')}:${(count % 60).toString().padStart(2, '0')}")
+            if(count - 1 <= 0) {
+                this.cancel()
+                counterText.postValue("話し合い終了")
+                finished = true
             }
         }
     }

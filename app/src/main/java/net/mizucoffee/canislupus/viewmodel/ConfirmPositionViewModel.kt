@@ -4,9 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
 
 class ConfirmPositionViewModel : ViewModel() {
-    val transition = MutableLiveData<String>()
+    val transition = MutableLiveData<Int>()
+    var name = ""
 
     fun next() {
-        transition.postValue("s")
+        transition.postValue(0)
     }
 }
