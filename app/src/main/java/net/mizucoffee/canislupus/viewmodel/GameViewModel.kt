@@ -5,12 +5,12 @@ import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.werewolf.Position
 
 class GameViewModel : ViewModel() {
-    private lateinit var players: ArrayList<Player>
+    private lateinit var players: MutableList<Player>
     private lateinit var positionList: MutableList<Position>
     private lateinit var executeList: MutableList<Position>
     private var confirmCount: Int = 0
 
-    fun setPlayers(players: ArrayList<Player>) {
+    fun setPlayers(players: MutableList<Player>) {
         this.players = players
     }
 

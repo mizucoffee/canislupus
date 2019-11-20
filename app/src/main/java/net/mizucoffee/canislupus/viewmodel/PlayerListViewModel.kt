@@ -2,24 +2,32 @@ package net.mizucoffee.canislupus.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import net.mizucoffee.canislupus.adapter.PlayerListAdapter
 import net.mizucoffee.canislupus.model.Player
 
 class PlayerListViewModel : ViewModel() {
-    val playerLiveData = MutableLiveData<ArrayList<Player>>()
+    val players = MutableLiveData<MutableList<Player>>()
     val toastLiveData = MutableLiveData<String>()
     val transitionLiveData = MutableLiveData<String>()
+    var adapter: PlayerListAdapter = PlayerListAdapter()
+    var listener = object : PlayerListAdapter.OnItemClickListener {
+        override fun onItemCLickListener(pos: Int, count: Int) {
+            addPlayer(pos, count)
+        }
+    }
 
-    fun addPlayer() {
-        var list = playerLiveData.value
-        if(list == null) list = ArrayList()
+    fun addPlayer(pos: Int, playerCount: Int) {
+        if (pos != playerCount - 1) return
+        val list = adapter.players.toMutableList()
         val count = list.size.plus(1)
         list.add(Player("Player $count", "$count"))
-        playerLiveData.postValue(list)
+
+        players.postValue(list)
+        adapter.players = list
     }
 
     fun next() {
-        var list = playerLiveData.value
-        if(list == null) list = ArrayList()
+        val list = adapter.players.toMutableList()
         if(list.size < 3)
             toastLiveData.postValue("3人以上必要です")
         else

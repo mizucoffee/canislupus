@@ -23,13 +23,9 @@ class ShowPositionFragment : Fragment() {
     }
 
     private lateinit var showPositionViewModel: ShowPositionViewModel
+    private fun getGVM() = (activity as GameActivity).gameViewModel
 
-    fun getGVM() = (activity as GameActivity).gameViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_show_position, container, false)
     }
 
@@ -54,11 +50,12 @@ class ShowPositionFragment : Fragment() {
     fun listenDescriptionBtn(pos: Position) {
         aboutPosition.setOnClickListener {
             activity?.let {
-                AlertDialog.Builder(it)
-                    .setTitle(pos.name)
-                    .setMessage(pos.description)
-                    .setPositiveButton("OK", null)
-                    .show()
+                AlertDialog.Builder(it).apply {
+                    setTitle(pos.name)
+                    setMessage(pos.description)
+                    setPositiveButton("OK", null)
+                    show()
+                }
             }
         }
     }

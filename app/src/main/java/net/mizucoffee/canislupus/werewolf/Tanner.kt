@@ -6,9 +6,7 @@ import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.enumerate.Camp
 import net.mizucoffee.canislupus.enumerate.Camp.*
-import net.mizucoffee.canislupus.werewolf.Position
 import net.mizucoffee.canislupus.enumerate.PositionEnum
-import net.mizucoffee.canislupus.werewolf.hasCamp
 
 class Tanner : Position() {
 

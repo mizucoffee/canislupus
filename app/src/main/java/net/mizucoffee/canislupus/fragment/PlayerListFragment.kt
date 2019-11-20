@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_player_list.*
 import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
-import net.mizucoffee.canislupus.adapter.PlayerListAdapter
+import net.mizucoffee.canislupus.databinding.FragmentPlayerListBinding
 import net.mizucoffee.canislupus.viewmodel.PlayerListViewModel
 
 class PlayerListFragment : Fragment() {
@@ -23,67 +23,45 @@ class PlayerListFragment : Fragment() {
         fun newInstance() = PlayerListFragment()
     }
 
-    private lateinit var playerListAdapter: PlayerListAdapter
-    private lateinit var playerListViewModel: PlayerListViewModel
+    private fun getGVM() = (activity as GameActivity).gameViewModel
+    private lateinit var binding: FragmentPlayerListBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_player_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
+        binding = FragmentPlayerListBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this).get(PlayerListViewModel::class.java)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val linearLayoutmg = LinearLayoutManager(activity?.applicationContext)
-        val divider =
-            DividerItemDecoration(playerListRecyclerView.context, DividerItemDecoration.VERTICAL)
+        playerList.layoutManager = LinearLayoutManager(activity?.applicationContext)
+        playerList.addItemDecoration(
+            DividerItemDecoration(playerList.context, DividerItemDecoration.VERTICAL)
+        )
 
-        playerListAdapter = PlayerListAdapter()
-        playerListViewModel = ViewModelProviders.of(this).get(PlayerListViewModel::class.java)
-        playerListRecyclerView.adapter = playerListAdapter
-        playerListRecyclerView.layoutManager = linearLayoutmg
-        playerListRecyclerView.addItemDecoration(divider)
-
-        listenPlayerList(playerListViewModel)
-        observePlayerList(playerListViewModel)
-        observeToast(playerListViewModel)
-        observeTransition(playerListViewModel)
-        setOnClickNextBtn(playerListViewModel)
-    }
-
-    fun listenPlayerList(viewModel: PlayerListViewModel) {
-        playerListAdapter.setOnClickListener { pos, size ->
-            if(pos == size - 1) viewModel.addPlayer()
+        binding.viewModel?.also {
+            observePlayerList(it)
+            observeToast(it)
+            observeTransition(it)
         }
     }
 
-    fun observePlayerList(viewModel: PlayerListViewModel) {
-        viewModel.playerLiveData.observe(this, Observer {
-            (activity as GameActivity).gameViewModel.setPlayers(it)
-            playerListAdapter.setPlayers(it)
-            playerListAdapter.notifyDataSetChanged()
-        })
+    private fun observePlayerList(viewModel: PlayerListViewModel) {
+        viewModel.players.observe(this, Observer { getGVM().setPlayers(it) })
     }
 
-    fun observeToast(viewModel: PlayerListViewModel) {
+    private fun observeToast(viewModel: PlayerListViewModel) {
         viewModel.toastLiveData.observe(this, Observer {
             Toast.makeText(activity?.applicationContext, it, Toast.LENGTH_SHORT).show()
         })
     }
 
-    fun observeTransition(viewModel: PlayerListViewModel) {
+    private fun observeTransition(viewModel: PlayerListViewModel) {
         viewModel.transitionLiveData.observe(this, Observer {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.gameFragmentLayout, SetNumberFragment.newInstance())?.commit()
         })
-    }
-
-    fun setOnClickNextBtn(viewModel: PlayerListViewModel) {
-        nextBtn.setOnClickListener {
-            viewModel.next()
-        }
     }
 
 }

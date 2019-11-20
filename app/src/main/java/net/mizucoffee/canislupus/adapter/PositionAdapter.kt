@@ -1,7 +1,6 @@
 package net.mizucoffee.canislupus.adapter
 
 import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.enumerate.PositionEnum
 import net.mizucoffee.canislupus.werewolf.Position
 
-class PositionAdapter(val playerCount: Int) :
+class PositionAdapter(private val playerCount: Int) :
     RecyclerView.Adapter<PositionAdapter.PositionViewHolder>() {
 
     val countList: MutableMap<PositionEnum, Int> = mutableMapOf()
@@ -31,59 +30,39 @@ class PositionAdapter(val playerCount: Int) :
     override fun getItemCount(): Int = PositionEnum.values().size
 
     override fun onBindViewHolder(holder: PositionViewHolder, p: Int) {
-        val position = Position.positionInit[PositionEnum.values()[p]]?.invoke()
-        position?.apply {
-            Position.defaultSet[playerCount]?.get(this.position)?.apply { countList[PositionEnum.values()[p]] = this }
+        Position.positionInit[PositionEnum.values()[p]]?.invoke()?.apply {
+            Position.defaultSet[playerCount]?.get(this.position)
+                ?.apply { countList[PositionEnum.values()[p]] = this }
+
             holder.symbol.setImageResource(symbol)
             holder.posName.text = name
             if (isRequired) {
-                holder.btn0.isEnabled = false
-                holder.btn0.setTextColor(Color.parseColor("#cccccc"))
+                holder.btn[0].isEnabled = false
+                holder.btn[0].setTextColor(Color.parseColor("#cccccc"))
             }
             countList[PositionEnum.values()[p]]?.also { setCount(holder, it) }
 
-            holder.btn0.setOnClickListener {
-                countList[PositionEnum.values()[p]] = 0
-                setCount(holder, 0)
-            }
-
-            holder.btn1.setOnClickListener {
-                countList[PositionEnum.values()[p]] = 1
-                setCount(holder, 1)
-            }
-
-            holder.btn2.setOnClickListener {
-                countList[PositionEnum.values()[p]] = 2
-                setCount(holder, 2)
+            holder.btn.forEachIndexed { i, btn ->
+                btn.setOnClickListener {
+                    countList[PositionEnum.values()[p]] = i
+                    setCount(holder, i)
+                }
             }
         }
-
     }
 
-    fun setCount(holder: PositionViewHolder, count: Int) {
-        if (holder.btn0.isEnabled) {
-            holder.btn0.setTextColor(primaryColor)
-            holder.btn0.setBackgroundResource(R.drawable.button_number)
-        }
-        listOf(holder.btn1, holder.btn2).forEach {
+    private fun setCount(holder: PositionViewHolder, c: Int) {
+        holder.btn.filter { it.isEnabled }.forEach {
             it.setTextColor(primaryColor)
             it.setBackgroundResource(R.drawable.button_number)
         }
-        when (count) {
-            0 -> holder.btn0
-            1 -> holder.btn1
-            else -> holder.btn2
-        }.apply {
-            setTextColor(Color.WHITE)
-            setBackgroundResource(R.drawable.button_number_selected)
-        }
+        holder.btn[c].setTextColor(Color.WHITE)
+        holder.btn[c].setBackgroundResource(R.drawable.button_number_selected)
     }
 
     class PositionViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val symbol: ImageView = v.symbol
         val posName: TextView = v.name
-        val btn0: Button = v.btn0
-        val btn1: Button = v.btn1
-        val btn2: Button = v.btn2
+        val btn: List<Button> = listOf(v.btn0, v.btn1, v.btn2)
     }
 }

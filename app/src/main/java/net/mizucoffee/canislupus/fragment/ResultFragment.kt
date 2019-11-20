@@ -23,26 +23,24 @@ class ResultFragment : Fragment() {
 
     private lateinit var viewModel: ResultViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_result, container, false)
     }
 
-    fun getGVM() = (activity as GameActivity).gameViewModel
+    private fun getGVM() = (activity as GameActivity).gameViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(ResultViewModel::class.java)
 
-        result.text = "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getPositionList()).result}"
-        sub.text = "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getPositionList()).sub}"
+        result.text =
+            "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getPositionList()).result}"
+        sub.text =
+            "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getPositionList()).sub}"
 
         listenNextBtn(viewModel)
         observeTransition(viewModel)
     }
-
 
     fun listenNextBtn(viewModel: ResultViewModel) {
         newGameBtn.setOnClickListener {
@@ -53,7 +51,8 @@ class ResultFragment : Fragment() {
     fun observeTransition(viewModel: ResultViewModel) {
         viewModel.transition.observe(this, Observer {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.gameFragmentLayout, PlayerListFragment.newInstance())?.commit()
+            transaction?.replace(R.id.gameFragmentLayout, PlayerListFragment.newInstance())
+                ?.commit()
         })
     }
 }

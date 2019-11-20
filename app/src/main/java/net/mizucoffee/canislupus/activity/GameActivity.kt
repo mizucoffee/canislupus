@@ -10,7 +10,6 @@ import net.mizucoffee.canislupus.fragment.PlayerListFragment
 import net.mizucoffee.canislupus.viewmodel.GameViewModel
 
 class GameActivity : AppCompatActivity() {
-
     lateinit var gameViewModel: GameViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,12 +27,12 @@ class GameActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if(keyCode == KeyEvent.KEYCODE_BACK){
-            AlertDialog.Builder(this).let {
-                it.setTitle("確認")
-                it.setMessage("ゲームを終了しても良いですか？")
-                it.setPositiveButton("Ok") { _, _ -> finish() }
-                it.setNegativeButton("Cancel", null)
-                it.show()
+            AlertDialog.Builder(this).apply {
+                setTitle("確認")
+                setMessage("ゲームを終了しても良いですか？")
+                setPositiveButton("Ok") { _, _ -> finish() }
+                setNegativeButton("Cancel", null)
+                show()
             }
             return true
         }

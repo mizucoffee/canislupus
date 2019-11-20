@@ -9,5 +9,3 @@ enum class Winner(val result: String, val sub: String) {
     WEREWOLF_PEACE("勝者なし", "平和村"),
     VILLAGER_TANNER("村人陣営の勝利", "吊人回避")
 }
-// 怪盗で入れ替わった狂人が死ぬ
-// 怪盗で入れ替わった人狼が死ぬ OK
