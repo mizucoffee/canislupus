@@ -29,6 +29,7 @@ class PlayerListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
         binding = FragmentPlayerListBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(this).get(PlayerListViewModel::class.java)
+        binding.lifecycleOwner = this
         return binding.root
     }
 

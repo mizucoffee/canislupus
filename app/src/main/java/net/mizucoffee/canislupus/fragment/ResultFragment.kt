@@ -11,9 +11,9 @@ import kotlinx.android.synthetic.main.fragment_result.*
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
-import net.mizucoffee.canislupus.enumerate.PositionEnum
+import net.mizucoffee.canislupus.databinding.FragmentResultBinding
 import net.mizucoffee.canislupus.viewmodel.ResultViewModel
-import net.mizucoffee.canislupus.werewolf.Position
+import net.mizucoffee.canislupus.werewolf.Card
 
 class ResultFragment : Fragment() {
 
@@ -21,34 +21,28 @@ class ResultFragment : Fragment() {
         fun newInstance() = ResultFragment()
     }
 
-    private lateinit var viewModel: ResultViewModel
+    private fun getGVM() = (activity as GameActivity).gameViewModel
+    private lateinit var binding: FragmentResultBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_result, container, false)
+        binding = FragmentResultBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this).get(ResultViewModel::class.java)
+        binding.lifecycleOwner = this
+        return binding.root
     }
-
-    private fun getGVM() = (activity as GameActivity).gameViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ResultViewModel::class.java)
+        binding.viewModel = ViewModelProviders.of(this).get(ResultViewModel::class.java)
 
-        result.text =
-            "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getPositionList()).result}"
-        sub.text =
-            "${Position.checkWinner(getGVM().getExecuteList(), getGVM().getPositionList()).sub}"
+        val winner = Card.checkWinner(getGVM().getExecuteList(), getGVM().getCardList())
+        result.text = winner.result
+        sub.text = winner.sub
 
-        listenNextBtn(viewModel)
-        observeTransition(viewModel)
+        binding.viewModel?.also { observeTransition(it) }
     }
 
-    fun listenNextBtn(viewModel: ResultViewModel) {
-        newGameBtn.setOnClickListener {
-            viewModel.next()
-        }
-    }
-
-    fun observeTransition(viewModel: ResultViewModel) {
+    private fun observeTransition(viewModel: ResultViewModel) {
         viewModel.transition.observe(this, Observer {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.gameFragmentLayout, PlayerListFragment.newInstance())

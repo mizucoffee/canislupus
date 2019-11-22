@@ -37,7 +37,7 @@ class DiscussionFragment : Fragment() {
         binding.viewModel?.also { observeTransition(it) }
     }
 
-    fun observeTransition(viewModel: DiscussionViewModel) {
+    private fun observeTransition(viewModel: DiscussionViewModel) {
         viewModel.transition.observe(this, Observer {
             getGVM().setConfirmCount(0)
             val transaction = activity?.supportFragmentManager?.beginTransaction()

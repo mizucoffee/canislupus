@@ -9,10 +9,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_vote.*
 
 import net.mizucoffee.canislupus.R
@@ -32,53 +32,51 @@ class AbilitySelectFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
         binding = FragmentAbilitySelectBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(this).get(AbilitySelectViewModel::class.java)
+        binding.lifecycleOwner = this
         return binding.root
     }
+
+    private fun dp2px(dp: Int) = (dp * resources.displayMetrics.density + 0.5f).toInt()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         val count = getGVM().getConfirmCount()
-        val positions = getGVM().getPositionList()
-        val pos = positions[count]
+        val cards = getGVM().getCardList()
+        val card = cards[count]
 
-        binding.viewModel?.message = pos.getSelectMessage()
-        val scale = resources.displayMetrics.density
+        binding.viewModel?.message = card.getSelectMessage()
 
-        pos.getSelectList(positions)?.map { data ->
+        card.getSelectList(cards)?.map { data ->
             voteList.addView(Button(context).apply {
                 text = data.value
-                layoutParams = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-                ).apply {
-                    topMargin = (16 * scale + 0.5f).toInt()
+                layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+                    topMargin = dp2px(16)
                     gravity = Gravity.CENTER
                 }
-                setPadding(
-                    (32 * scale + 0.5f).toInt(),
-                    (16 * scale + 0.5f).toInt(),
-                    (32 * scale + 0.5f).toInt(),
-                    (16 * scale + 0.5f).toInt()
-                )
+                setPadding(dp2px(32), dp2px(16), dp2px(32), dp2px(16))
                 setBackgroundResource(R.drawable.bottom_button)
                 textSize = 18f
                 setTextColor(Color.WHITE)
                 setOnClickListener {
                     activity?.let { context ->
-                        getGVM().setPositionList(pos.ability(getGVM().getPositionList(), data.key))
+                        getGVM().setCardList(card.ability(getGVM().getCardList(), data.key))
                         AlertDialog.Builder(context)
                             .setTitle("結果")
-                            .setView(pos.abilityResult(getGVM().getPositionList(), data.key, context))
+                            .setView(
+                                card.abilityResult(getGVM().getCardList(), data.key, context)
+                            )
                             .setPositiveButton("OK") { _: DialogInterface, _: Int ->
-                                getGVM().setConfirmCount((activity as GameActivity).gameViewModel.getConfirmCount() + 1)
-                                val transaction = activity?.supportFragmentManager?.beginTransaction()
-                                val next = if(getGVM().getConfirmCount() < getGVM().getPlayers().size){
-                                    ConfirmPositionFragment.newInstance()
-                                } else {
-                                    getGVM().setConfirmCount(0)
-                                    StartDiscussionFragment.newInstance()
-                                }
+                                getGVM().setConfirmCount(getGVM().getConfirmCount() + 1)
+                                val transaction =
+                                    activity?.supportFragmentManager?.beginTransaction()
+                                val next =
+                                    if (getGVM().getConfirmCount() < getGVM().getPlayers().size) {
+                                        ConfirmCardFragment.newInstance()
+                                    } else {
+                                        getGVM().setConfirmCount(0)
+                                        StartDiscussionFragment.newInstance()
+                                    }
                                 transaction?.replace(R.id.gameFragmentLayout, next)?.commit()
                             }
                             .setCancelable(false)

@@ -8,37 +8,36 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fragment_show_position.*
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.viewmodel.ShowPositionViewModel
-import net.mizucoffee.canislupus.werewolf.Position
+import net.mizucoffee.canislupus.werewolf.Card
 import android.content.DialogInterface
-import net.mizucoffee.canislupus.databinding.FragmentShowPositionBinding
+import net.mizucoffee.canislupus.databinding.FragmentShowCardBinding
 
-class ShowPositionFragment : Fragment() {
+class ShowCardFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ShowPositionFragment()
+        fun newInstance() = ShowCardFragment()
     }
 
     private fun getGVM() = (activity as GameActivity).gameViewModel
-    private lateinit var binding: FragmentShowPositionBinding
+    private lateinit var binding: FragmentShowCardBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
-        binding = FragmentShowPositionBinding.inflate(inflater, container, false)
+        binding = FragmentShowCardBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(this).get(ShowPositionViewModel::class.java)
+        binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        binding.viewModel = ViewModelProviders.of(this).get(ShowPositionViewModel::class.java)
 
         val count = getGVM().getConfirmCount()
-        val positions = getGVM().getPositionList()
-        binding.viewModel?.position = positions[count]
+        val positions = getGVM().getCardList()
+        binding.viewModel?.card = positions[count]
         binding.viewModel?.miniMessage = positions[count].getMiniMessage(positions)
 
         binding.viewModel?.also {
@@ -47,12 +46,12 @@ class ShowPositionFragment : Fragment() {
         }
     }
 
-    private fun observeAboutPosition(viewModel: ShowPositionViewModel, pos: Position) {
-        viewModel.aboutPosition.observe(this, Observer {
+    private fun observeAboutPosition(viewModel: ShowPositionViewModel, card: Card) {
+        viewModel.aboutCard.observe(this, Observer {
             activity?.also {
                 AlertDialog.Builder(it).apply {
-                    setTitle(pos.name)
-                    setMessage(pos.description)
+                    setTitle(card.name)
+                    setMessage(card.description)
                     setPositiveButton("OK", null)
                     show()
                 }
@@ -60,31 +59,31 @@ class ShowPositionFragment : Fragment() {
         })
     }
 
-    fun observeTransition(viewModel: ShowPositionViewModel, pos: Position) {
+    private fun observeTransition(viewModel: ShowPositionViewModel, card: Card) {
         viewModel.transition.observe(this, Observer {
-            if (pos.hasAbility() && !pos.shouldSelectList()) {
-                getGVM().setPositionList(pos.ability(getGVM().getPositionList(), ""))
+            if (card.hasAbility() && !card.shouldSelectList()) {
+                getGVM().setCardList(card.ability(getGVM().getCardList(), ""))
                 activity?.let {
                     AlertDialog.Builder(it)
                         .setTitle("結果")
-                        .setView(pos.abilityResult(getGVM().getPositionList(), "", it))
-                        .setPositiveButton("OK") { _: DialogInterface, _: Int -> transition(pos) }
+                        .setView(card.abilityResult(getGVM().getCardList(), "", it))
+                        .setPositiveButton("OK") { _: DialogInterface, _: Int -> transition(card) }
                         .setCancelable(false)
                         .show()
                 }
             } else {
-                transition(pos)
+                transition(card)
             }
         })
     }
 
-    fun transition(pos: Position) {
+    fun transition(card: Card) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         val next = when {
-            pos.hasAbility() && pos.shouldSelectList() -> AbilitySelectFragment.newInstance()
+            card.hasAbility() && card.shouldSelectList() -> AbilitySelectFragment.newInstance()
             getGVM().getConfirmCount() + 1 < getGVM().getPlayers().size -> {
                 getGVM().setConfirmCount(getGVM().getConfirmCount() + 1)
-                ConfirmPositionFragment.newInstance()
+                ConfirmCardFragment.newInstance()
             }
             else -> {
                 getGVM().setConfirmCount(0)

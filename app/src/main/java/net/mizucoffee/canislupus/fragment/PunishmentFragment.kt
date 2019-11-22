@@ -11,8 +11,9 @@ import kotlinx.android.synthetic.main.fragment_punishment.*
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
+import net.mizucoffee.canislupus.databinding.FragmentPunishmentBinding
 import net.mizucoffee.canislupus.viewmodel.PunishmentViewModel
-import net.mizucoffee.canislupus.werewolf.Position
+import net.mizucoffee.canislupus.werewolf.Card
 
 class PunishmentFragment : Fragment() {
 
@@ -20,22 +21,24 @@ class PunishmentFragment : Fragment() {
         fun newInstance() = PunishmentFragment()
     }
 
-    private lateinit var vm: PunishmentViewModel
     private fun getGVM() = (activity as GameActivity).gameViewModel
+    private lateinit var binding: FragmentPunishmentBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_punishment, container, false)
+        binding = FragmentPunishmentBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this).get(PunishmentViewModel::class.java)
+        binding.lifecycleOwner = this
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        vm = ViewModelProviders.of(this).get(PunishmentViewModel::class.java)
 
         var max = 0
-        var punishList: MutableList<Position> = mutableListOf()
+        var punishList: MutableList<Card> = mutableListOf()
 
         getGVM().getPlayers().forEach { player ->
-            val count = getGVM().getPositionList().count { it.vote == player.id }
+            val count = getGVM().getCardList().count { it.vote == player.id }
 
             val position = getGVM().findTruePositionById(player.id)
             if (max == count) position?.let { punishList.add(it) }
@@ -50,18 +53,13 @@ class PunishmentFragment : Fragment() {
             if (punishList.isEmpty())
                 "誰も処刑\nされません"
             else
-                "${punishList.map { it.truePlayer?.name }.joinToString("さん \r")}さん"
+                "${punishList.map { it.trueOwner?.name }.joinToString("さん \r")}さん"
 
         getGVM().setExecuteList(punishList)
-        listenNextBtn(vm)
-        observeTransition(vm)
+
+        binding.viewModel?.also { observeTransition(it) }
     }
 
-    private fun listenNextBtn(viewModel: PunishmentViewModel) {
-        nextBtn.setOnClickListener {
-            viewModel.next()
-        }
-    }
 
     private fun observeTransition(viewModel: PunishmentViewModel) {
         viewModel.transition.observe(this, Observer {

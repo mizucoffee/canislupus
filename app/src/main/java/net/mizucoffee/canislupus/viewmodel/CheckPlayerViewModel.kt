@@ -4,9 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
 
 class CheckPlayerViewModel : ViewModel() {
-    val transition = MutableLiveData<String>()
+    val transition = MutableLiveData<Int>()
+    var name: String? = null
 
     fun next() {
-        transition.postValue("s")
+        transition.postValue(0)
     }
 }

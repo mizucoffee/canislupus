@@ -26,16 +26,17 @@ class StartDiscussionFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
         binding = FragmentStartDiscussionBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(this).get(StartDiscussionViewModel::class.java)
+        binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         binding.viewModel?.also { observeTransition(it) }
     }
 
-
-    fun observeTransition(viewModel: StartDiscussionViewModel) {
+    private fun observeTransition(viewModel: StartDiscussionViewModel) {
         viewModel.transition.observe(this, Observer {
             getGVM().setConfirmCount(getGVM().getConfirmCount() + 1)
             val transaction = activity?.supportFragmentManager?.beginTransaction()

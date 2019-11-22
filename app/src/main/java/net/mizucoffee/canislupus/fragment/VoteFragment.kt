@@ -7,13 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
 import android.widget.LinearLayout
 import android.widget.Button
-import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_vote.*
+import net.mizucoffee.canislupus.databinding.FragmentVoteBinding
 import net.mizucoffee.canislupus.viewmodel.VoteViewModel
 
 class VoteFragment : Fragment() {
@@ -22,77 +23,59 @@ class VoteFragment : Fragment() {
         fun newInstance() = VoteFragment()
     }
 
-    private lateinit var viewModel: VoteViewModel
+    private fun getGVM() = (activity as GameActivity).gameViewModel
+    private lateinit var binding: FragmentVoteBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_vote, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
+        binding = FragmentVoteBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this).get(VoteViewModel::class.java)
+        binding.lifecycleOwner = this
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(VoteViewModel::class.java)
 
-        val count = (activity as GameActivity).gameViewModel.getConfirmCount()
-        val positions = (activity as GameActivity).gameViewModel.getPositionList()
-        val pos = positions[count]
+        val count = getGVM().getConfirmCount()
+        val cards = getGVM().getCardList()
+        val myCard = cards[count]
 
-        message.text = "投票先を選択してください"
-        val list = positions.filter { it != pos }.filter { it.player != null }
-        val scale = resources.displayMetrics.density
+        val list = cards.filter { it != myCard }.filter { it.owner != null }
 
-        list.map { position ->
-            val btn = Button(context)
-            btn.text = position.player?.name
+        list.forEach { card ->
+            val btn = Button(context).apply {
+                text = card.owner?.name
+                textSize = 18f
+                setTextColor(Color.WHITE)
+                layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+                    setMargins(0, dp2px(16), 0, 0)
+                }
+                setPadding(dp2px(32), dp2px(16), dp2px(32), dp2px(16))
+                setBackgroundResource(R.drawable.bottom_button)
+                setOnClickListener {
+                    val player = myCard.owner
+                    val target = card.owner
 
-            val lp = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-
-            lp.setMargins(0, (16 * scale + 0.5f).toInt(), 0, 0)
-            btn.layoutParams = lp
-            btn.setPadding(
-                (32 * scale + 0.5f).toInt(),
-                (16 * scale + 0.5f).toInt(),
-                (32 * scale + 0.5f).toInt(),
-                (16 * scale + 0.5f).toInt()
-            )
-            btn.setBackgroundResource(R.drawable.bottom_button)
-            btn.textSize = 18f
-            btn.setTextColor(Color.WHITE)
-            btn.setOnClickListener {
-                val player = pos.player
-                val target = position.player
-
-                if (target != null && player != null)
-                    (activity as GameActivity).gameViewModel.vote(player.id, target.id)
-                (activity as GameActivity).gameViewModel.setConfirmCount((activity as GameActivity).gameViewModel.getConfirmCount() + 1)
-                viewModel.next(
-                    (activity as GameActivity).gameViewModel.getConfirmCount(),
-                    (activity as GameActivity).gameViewModel.getPlayers().size
-                )
+                    if (target != null && player != null) getGVM().vote(player.id, target.id)
+                    getGVM().setConfirmCount(getGVM().getConfirmCount() + 1)
+                    transition()
+                }
             }
-
             voteList.addView(btn)
         }
-
-        observeTransition(viewModel)
     }
 
-    fun observeTransition(viewModel: VoteViewModel) {
-        viewModel.transition.observe(this, Observer {
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            val next = if (it) {
-                CheckPlayerFragment.newInstance()
-            } else {
-                (activity as GameActivity).gameViewModel.setConfirmCount(0)
-                PunishmentFragment.newInstance()
-            }
+    private fun dp2px(dp: Int) = (dp * resources.displayMetrics.density + 0.5f).toInt()
 
-            transaction?.replace(R.id.gameFragmentLayout, next)?.commit()
-        })
+    fun transition() {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        val next = if (getGVM().getConfirmCount() < getGVM().getPlayers().size) {
+            CheckPlayerFragment.newInstance()
+        } else {
+            (activity as GameActivity).gameViewModel.setConfirmCount(0)
+            PunishmentFragment.newInstance()
+        }
+
+        transaction?.replace(R.id.gameFragmentLayout, next)?.commit()
     }
 }

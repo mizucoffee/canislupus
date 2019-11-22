@@ -9,8 +9,8 @@ class PlayerListViewModel : ViewModel() {
     val players = MutableLiveData<MutableList<Player>>()
     val toast = MutableLiveData<String>()
     val transition = MutableLiveData<Int>()
-
     var adapter: PlayerListAdapter = PlayerListAdapter()
+
     var listener = object : PlayerListAdapter.OnItemClickListener {
         override fun onItemCLickListener(pos: Int, count: Int) {
             addPlayer(pos, count)
@@ -29,7 +29,7 @@ class PlayerListViewModel : ViewModel() {
 
     fun next() {
         val list = adapter.players.toMutableList()
-        if(list.size < 3)
+        if (list.size < 3)
             toast.postValue("3人以上必要です")
         else
             transition.postValue(0)

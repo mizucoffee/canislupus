@@ -7,42 +7,39 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fragment_confirm_player.*
 import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
-import net.mizucoffee.canislupus.databinding.FragmentConfirmPlayerBinding
-import net.mizucoffee.canislupus.viewmodel.ConfirmPositionViewModel
+import net.mizucoffee.canislupus.databinding.FragmentConfirmCardBinding
+import net.mizucoffee.canislupus.viewmodel.ConfirmCardViewModel
 
-class ConfirmPositionFragment : Fragment() {
+class ConfirmCardFragment : Fragment() {
 
     companion object {
-        fun newInstance(): ConfirmPositionFragment {
-            return ConfirmPositionFragment()
-        }
+        fun newInstance() = ConfirmCardFragment()
     }
 
     private fun getGVM() = (activity as GameActivity).gameViewModel
-    private lateinit var binding: FragmentConfirmPlayerBinding
+    private lateinit var binding: FragmentConfirmCardBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
-        binding = FragmentConfirmPlayerBinding.inflate(inflater, container, false)
-        binding.viewModel = ViewModelProviders.of(this).get(ConfirmPositionViewModel::class.java)
+        binding = FragmentConfirmCardBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this).get(ConfirmCardViewModel::class.java)
+        binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         binding.viewModel?.name = getGVM().getPlayers()[getGVM().getConfirmCount()].name
-        binding.viewModel?.also {
-            observeTransition(it)
-        }
+        binding.viewModel?.also { observeTransition(it) }
     }
 
-    fun observeTransition(viewModel: ConfirmPositionViewModel) {
+    private fun observeTransition(viewModel: ConfirmCardViewModel) {
         viewModel.transition.observe(this, Observer {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.gameFragmentLayout, ShowPositionFragment.newInstance())
+            transaction?.replace(R.id.gameFragmentLayout, ShowCardFragment.newInstance())
                 ?.commit()
         })
     }

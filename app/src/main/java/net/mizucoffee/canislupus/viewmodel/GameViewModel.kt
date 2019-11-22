@@ -2,53 +2,50 @@ package net.mizucoffee.canislupus.viewmodel
 
 import androidx.lifecycle.ViewModel
 import net.mizucoffee.canislupus.model.Player
-import net.mizucoffee.canislupus.werewolf.Position
+import net.mizucoffee.canislupus.werewolf.Card
 
 class GameViewModel : ViewModel() {
     private lateinit var players: MutableList<Player>
-    private lateinit var positionList: MutableList<Position>
-    private lateinit var executeList: MutableList<Position>
+    private lateinit var cardList: MutableList<Card>
+    private lateinit var executeList: MutableList<Card>
     private var confirmCount: Int = 0
 
+    fun getPlayers() = players
     fun setPlayers(players: MutableList<Player>) {
         this.players = players
     }
 
-    fun getPlayers() = players
-
-    fun setPositionList(positionList: MutableList<Position>) {
-        this.positionList = positionList
-    }
-
-    fun getPositionList() = positionList
-
-    fun setExecuteList(executeList: MutableList<Position>) {
-        this.executeList = executeList
+    fun getCardList() = cardList
+    fun setCardList(cardList: MutableList<Card>) {
+        this.cardList = cardList
     }
 
     fun getExecuteList() = executeList
+    fun setExecuteList(executeList: MutableList<Card>) {
+        this.executeList = executeList
+    }
 
+    fun getConfirmCount() = confirmCount
     fun setConfirmCount(count: Int) {
         this.confirmCount = count
     }
 
-    fun getConfirmCount() = confirmCount
-
     fun vote(playerId: String, targetId: String) {
-        positionList.forEachIndexed { i: Int, it: Position ->
-            if (it.player?.id == playerId) positionList[i].vote = targetId
+        cardList.forEachIndexed { i: Int, it: Card ->
+            if (it.owner?.id == playerId) cardList[i].vote = targetId
         }
     }
 
-    fun findPositionById(id: String?): Position? {
-        for (p in getPositionList())
-            if (p.player?.id == id)
+    fun findPositionById(id: String?): Card? {
+        for (p in getCardList())
+            if (p.owner?.id == id)
                 return p
         return null
     }
-    fun findTruePositionById(id: String?): Position? {
-        for (p in getPositionList())
-            if (p.truePlayer?.id == id)
+
+    fun findTruePositionById(id: String?): Card? {
+        for (p in getCardList())
+            if (p.trueOwner?.id == id)
                 return p
         return null
     }

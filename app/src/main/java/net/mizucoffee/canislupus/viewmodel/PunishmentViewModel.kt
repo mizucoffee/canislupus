@@ -4,9 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class PunishmentViewModel : ViewModel() {
-    val transition = MutableLiveData<String>()
+    val transition = MutableLiveData<Int>()
 
     fun next() {
-        transition.postValue("s")
+        transition.postValue(0)
     }
 }

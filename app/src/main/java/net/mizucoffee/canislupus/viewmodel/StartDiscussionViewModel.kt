@@ -7,6 +7,6 @@ class StartDiscussionViewModel : ViewModel() {
     val transition = MutableLiveData<Int>()
 
     fun next() {
-        transition.postValue( 0 )
+        transition.postValue(0)
     }
 }

@@ -28,6 +28,7 @@ class SetNumberFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
         binding = FragmentSetNumberBinding.inflate(inflater, container, false)
         binding.viewModel = ViewModelProviders.of(this).get(SetNumberViewModel::class.java)
+        binding.lifecycleOwner = this
         return binding.root
     }
 
@@ -40,25 +41,25 @@ class SetNumberFragment : Fragment() {
         }
 
         binding.viewModel?.also {
-            observePositionList(it)
+            observeCardList(it)
             observeTransition(it)
         }
     }
 
-    fun observePositionList(viewModel: SetNumberViewModel) {
-        viewModel.positionList.observe(this, Observer {
-            getGVM().setPositionList(it)
+    private fun observeCardList(viewModel: SetNumberViewModel) {
+        viewModel.cardList.observe(this, Observer {
+            getGVM().setCardList(it)
         })
     }
 
-    fun observeTransition(viewModel: SetNumberViewModel) {
+    private fun observeTransition(viewModel: SetNumberViewModel) {
         viewModel.transition.observe(this, Observer {
-            viewModel.initPosition(
+            viewModel.initCard(
                 (positionRecycler.adapter as PositionAdapter).countList,
                 getGVM().getPlayers()
             )
             val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.gameFragmentLayout, ConfirmPositionFragment.newInstance())
+            transaction?.replace(R.id.gameFragmentLayout, ConfirmCardFragment.newInstance())
                 ?.commit()
         })
     }

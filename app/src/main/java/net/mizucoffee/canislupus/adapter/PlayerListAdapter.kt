@@ -17,9 +17,8 @@ class PlayerListAdapter : RecyclerView.Adapter<PlayerListAdapter.PlayerViewHolde
     private val list: MutableList<Player> = mutableListOf()
     var listener: OnItemClickListener? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayerViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_player_list, parent, false)
+    override fun onCreateViewHolder(p: ViewGroup, viewType: Int): PlayerViewHolder {
+        val view = LayoutInflater.from(p.context).inflate(R.layout.item_player_list, p, false)
         return PlayerViewHolder(view)
     }
 
@@ -31,7 +30,9 @@ class PlayerListAdapter : RecyclerView.Adapter<PlayerListAdapter.PlayerViewHolde
             playerName.text = if (isPlayer) list[pos].name else "プレイヤーを追加"
             playerName.setTextColor(Color.parseColor(if (isPlayer) "#000000" else "#CCCCCC"))
             playerIcon.setImageResource(if (isPlayer) R.drawable.logo else R.drawable.ic_add_circle_black_24dp)
-            root.setOnClickListener { listener?.let { it1 -> it1.onItemCLickListener(pos, itemCount) } }
+            root.setOnClickListener {
+                listener?.also { l -> l.onItemCLickListener(pos, itemCount) }
+            }
         }
     }
 

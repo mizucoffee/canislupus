@@ -7,53 +7,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import kotlinx.android.synthetic.main.fragment_confirm_player.*
+import kotlinx.android.synthetic.main.fragment_confirm_card.*
 import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
+import net.mizucoffee.canislupus.databinding.FragmentCheckPlayerBinding
 import net.mizucoffee.canislupus.viewmodel.CheckPlayerViewModel
-import net.mizucoffee.canislupus.viewmodel.ConfirmPositionViewModel
 
 class CheckPlayerFragment : Fragment() {
 
     companion object {
-        fun newInstance(): CheckPlayerFragment {
-            return CheckPlayerFragment()
-        }
+        fun newInstance() = CheckPlayerFragment()
     }
 
-    private lateinit var checkPlayerViewModel: CheckPlayerViewModel
+    private fun getGVM() = (activity as GameActivity).gameViewModel
+    private lateinit var binding: FragmentCheckPlayerBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_confirm_player, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
+        binding = FragmentCheckPlayerBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this).get(CheckPlayerViewModel::class.java)
+        binding.lifecycleOwner = this
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        checkPlayerViewModel = ViewModelProviders.of(this).get(CheckPlayerViewModel::class.java)
 
-        val players = (activity as GameActivity).gameViewModel.getPlayers()
-        val count = (activity as GameActivity).gameViewModel.getConfirmCount()
-        playerName.text = players[count].name
-
-        listenNextBtn(checkPlayerViewModel)
-        observeTransition(checkPlayerViewModel)
+        binding.viewModel?.name = getGVM().getPlayers()[getGVM().getConfirmCount()].name
+        binding.viewModel?.also { observeTransition(it) }
     }
 
-    fun listenNextBtn(viewModel: CheckPlayerViewModel) {
-        nextBtn.setOnClickListener {
-            viewModel.next()
-        }
-    }
-
-    fun observeTransition(viewModel: CheckPlayerViewModel) {
+    private fun observeTransition(viewModel: CheckPlayerViewModel) {
         viewModel.transition.observe(this, Observer {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.gameFragmentLayout, VoteFragment.newInstance())?.commit()
         })
     }
-
 }

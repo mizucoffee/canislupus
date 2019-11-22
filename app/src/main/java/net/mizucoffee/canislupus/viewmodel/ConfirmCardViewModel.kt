@@ -3,7 +3,7 @@ package net.mizucoffee.canislupus.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.MutableLiveData
 
-class ConfirmPositionViewModel : ViewModel() {
+class ConfirmCardViewModel : ViewModel() {
     val transition = MutableLiveData<Int>()
     var name = ""
 

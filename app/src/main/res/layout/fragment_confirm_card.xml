@@ -5,13 +5,12 @@
     <data>
         <variable
             name="viewModel"
-            type="net.mizucoffee.canislupus.viewmodel.ConfirmPositionViewModel" />
+            type="net.mizucoffee.canislupus.viewmodel.ConfirmCardViewModel" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".fragment.ConfirmPositionFragment">
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"

@@ -10,44 +10,41 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_position.view.*
+import kotlinx.android.synthetic.main.item_card.view.*
 import net.mizucoffee.canislupus.R
-import net.mizucoffee.canislupus.enumerate.PositionEnum
-import net.mizucoffee.canislupus.werewolf.Position
+import net.mizucoffee.canislupus.enumerate.CardEnum
 
 class PositionAdapter(private val playerCount: Int) :
     RecyclerView.Adapter<PositionAdapter.PositionViewHolder>() {
 
-    val countList: MutableMap<PositionEnum, Int> = mutableMapOf()
+    val countList: MutableMap<CardEnum, Int> = mutableMapOf()
     var primaryColor: Int = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PositionViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_position, parent, false)
-        primaryColor = ContextCompat.getColor(parent.context, R.color.colorPrimary)
+    override fun onCreateViewHolder(p: ViewGroup, viewType: Int): PositionViewHolder {
+        val view = LayoutInflater.from(p.context).inflate(R.layout.item_card, p, false)
+        primaryColor = ContextCompat.getColor(p.context, R.color.colorPrimary)
         return PositionViewHolder(view)
     }
 
-    override fun getItemCount(): Int = PositionEnum.values().size
+    override fun getItemCount(): Int = CardEnum.values().size
 
     override fun onBindViewHolder(holder: PositionViewHolder, p: Int) {
-        Position.positionInit[PositionEnum.values()[p]]?.invoke()?.apply {
-            Position.defaultSet[playerCount]?.get(this.position)
-                ?.apply { countList[PositionEnum.values()[p]] = this }
+        val card = CardEnum.values()[p].init()
+        val defaultPlayers = card.defaultPlayers[playerCount] ?: 0
+        countList[card.card] = defaultPlayers
 
-            holder.symbol.setImageResource(symbol)
-            holder.posName.text = name
-            if (isRequired) {
-                holder.btn[0].isEnabled = false
-                holder.btn[0].setTextColor(Color.parseColor("#cccccc"))
-            }
-            countList[PositionEnum.values()[p]]?.also { setCount(holder, it) }
+        holder.symbol.setImageResource(card.symbol)
+        holder.posName.text = card.name
+        if (card.isRequired) {
+            holder.btn[0].isEnabled = false
+            holder.btn[0].setTextColor(Color.parseColor("#cccccc"))
+        }
+        setCount(holder, defaultPlayers)
 
-            holder.btn.forEachIndexed { i, btn ->
-                btn.setOnClickListener {
-                    countList[PositionEnum.values()[p]] = i
-                    setCount(holder, i)
-                }
+        holder.btn.forEachIndexed { i, btn ->
+            btn.setOnClickListener {
+                countList[CardEnum.values()[p]] = i
+                setCount(holder, i)
             }
         }
     }
@@ -57,6 +54,7 @@ class PositionAdapter(private val playerCount: Int) :
             it.setTextColor(primaryColor)
             it.setBackgroundResource(R.drawable.button_number)
         }
+        if (c > 2) return
         holder.btn[c].setTextColor(Color.WHITE)
         holder.btn[c].setBackgroundResource(R.drawable.button_number_selected)
     }
