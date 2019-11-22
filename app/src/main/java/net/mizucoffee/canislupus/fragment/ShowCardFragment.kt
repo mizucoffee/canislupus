@@ -12,7 +12,7 @@ import androidx.lifecycle.Observer
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.viewmodel.ShowPositionViewModel
-import net.mizucoffee.canislupus.werewolf.Card
+import net.mizucoffee.canislupus.model.werewolf.Card
 import android.content.DialogInterface
 import net.mizucoffee.canislupus.databinding.FragmentShowCardBinding
 

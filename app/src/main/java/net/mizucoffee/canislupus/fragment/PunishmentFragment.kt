@@ -13,7 +13,7 @@ import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.databinding.FragmentPunishmentBinding
 import net.mizucoffee.canislupus.viewmodel.PunishmentViewModel
-import net.mizucoffee.canislupus.werewolf.Card
+import net.mizucoffee.canislupus.model.werewolf.Card
 
 class PunishmentFragment : Fragment() {
 

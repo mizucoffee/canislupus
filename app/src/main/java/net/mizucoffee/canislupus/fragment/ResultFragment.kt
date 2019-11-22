@@ -13,7 +13,7 @@ import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.databinding.FragmentResultBinding
 import net.mizucoffee.canislupus.viewmodel.ResultViewModel
-import net.mizucoffee.canislupus.werewolf.Card
+import net.mizucoffee.canislupus.model.werewolf.Card
 
 class ResultFragment : Fragment() {
 

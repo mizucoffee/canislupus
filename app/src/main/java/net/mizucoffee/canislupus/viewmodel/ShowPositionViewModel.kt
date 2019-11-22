@@ -2,7 +2,7 @@ package net.mizucoffee.canislupus.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import net.mizucoffee.canislupus.werewolf.Card
+import net.mizucoffee.canislupus.model.werewolf.Card
 
 class ShowPositionViewModel : ViewModel() {
     val transition = MutableLiveData<Int>()

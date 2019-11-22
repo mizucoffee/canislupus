@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import net.mizucoffee.canislupus.enumerate.CardEnum
 import net.mizucoffee.canislupus.model.Player
-import net.mizucoffee.canislupus.werewolf.Card
+import net.mizucoffee.canislupus.model.werewolf.Card
 
 class SetNumberViewModel : ViewModel() {
     val cardList = MutableLiveData<MutableList<Card>>()

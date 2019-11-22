@@ -1,4 +1,4 @@
-package net.mizucoffee.canislupus.werewolf
+package net.mizucoffee.canislupus.model.werewolf
 
 import android.content.Context
 import android.view.View

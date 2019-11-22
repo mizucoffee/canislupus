@@ -1,4 +1,4 @@
-package net.mizucoffee.canislupus.werewolf
+package net.mizucoffee.canislupus.model.werewolf
 
 import net.mizucoffee.canislupus.enumerate.Camp
 

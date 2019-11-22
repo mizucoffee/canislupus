@@ -2,7 +2,7 @@ package net.mizucoffee.canislupus.viewmodel
 
 import androidx.lifecycle.ViewModel
 import net.mizucoffee.canislupus.model.Player
-import net.mizucoffee.canislupus.werewolf.Card
+import net.mizucoffee.canislupus.model.werewolf.Card
 
 class GameViewModel : ViewModel() {
     private lateinit var players: MutableList<Player>
