@@ -9,6 +9,8 @@ import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.fragment.PlayerListFragment
 import net.mizucoffee.canislupus.viewmodel.GameViewModel
 
+
+
 class GameActivity : AppCompatActivity() {
     lateinit var gameViewModel: GameViewModel
 

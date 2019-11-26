@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.graphics.Color"/>
+        <variable
+            name="viewModel"
+            type="net.mizucoffee.canislupus.viewmodel.PinViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="PASSCODE"
+                    android:textSize="36sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:id="@+id/dot1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:text="・"
+                        android:textSize="32sp"
+                        android:textColor="@{viewModel.pin.length >= 1 ? Color.parseColor(`#000000`) : Color.parseColor(`#CCCCCC`)}" />
+
+                    <TextView
+                        android:id="@+id/dot2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:text="・"
+                        android:textSize="32sp"
+                        android:textColor="@{viewModel.pin.length >= 2 ? Color.parseColor(`#000000`) : Color.parseColor(`#CCCCCC`)}" />
+
+                    <TextView
+                        android:id="@+id/dot3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:text="・"
+                        android:textSize="32sp"
+                        android:textColor="@{viewModel.pin.length >= 3 ? Color.parseColor(`#000000`) : Color.parseColor(`#CCCCCC`)}" />
+
+                    <TextView
+                        android:id="@+id/dot4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:gravity="center"
+                        android:text="・"
+                        android:textSize="32sp"
+                        android:textColor="@{viewModel.pin.length >= 4 ? Color.parseColor(`#000000`) : Color.parseColor(`#CCCCCC`)}" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="1"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}" />
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="2"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="3"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="4"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="5"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="6"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="7"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="8"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="9"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="0"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"
+                    android:onClick="@{(v) -> viewModel.onClick(v)}"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:enabled="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="48sp"
+                    android:background="@drawable/button_pin"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>

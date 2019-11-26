@@ -19,12 +19,14 @@ class PlayerListViewModel : ViewModel() {
 
     fun addPlayer(pos: Int, playerCount: Int) {
         if (pos != playerCount - 1) return
-        val list = adapter.players.toMutableList()
-        val count = list.size.plus(1)
-        list.add(Player("Player $count", "$count"))
 
-        players.postValue(list)
-        adapter.players = list
+        transition.postValue(1)
+//        val list = adapter.players.toMutableList()
+//        val count = list.size.plus(1)
+//        list.add(Player("Player $count", "$count"))
+//
+//        players.postValue(list)
+//        adapter.players = list
     }
 
     fun next() {

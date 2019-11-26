@@ -1,5 +1,6 @@
 package net.mizucoffee.canislupus.fragment
 
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,13 +8,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.fragment_player_list.*
 import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
+import net.mizucoffee.canislupus.activity.AddPlayerActivity
 import net.mizucoffee.canislupus.databinding.FragmentPlayerListBinding
 import net.mizucoffee.canislupus.viewmodel.PlayerListViewModel
 
@@ -60,9 +64,26 @@ class PlayerListFragment : Fragment() {
 
     private fun observeTransition(viewModel: PlayerListViewModel) {
         viewModel.transition.observe(this, Observer {
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.gameFragmentLayout, SetNumberFragment.newInstance())?.commit()
+            when(it) {
+                0 -> {
+                    val transaction = activity?.supportFragmentManager?.beginTransaction()
+                    transaction?.replace(R.id.gameFragmentLayout, SetNumberFragment.newInstance())?.commit()
+                }
+                1 -> {
+                    startActivityForResult(Intent(activity, AddPlayerActivity::class.java), 0)
+                }
+            }
         })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            0 -> if (AppCompatActivity.RESULT_OK == resultCode) {
+                val pin = data?.getIntExtra("pin", 0) ?: 0
+                println(pin)
+            }
+        }
     }
 
 }
