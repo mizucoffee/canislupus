@@ -83,6 +83,8 @@ class PlayerListFragment : Fragment() {
                 val player = data?.getSerializableExtra("player")
                 if(player is Player)
                     binding.viewModel?.setPlayer(player)
+                else
+                    binding.viewModel?.setGuest()
             } else {
                 Toast.makeText(activity, "ログインに失敗しました", Toast.LENGTH_SHORT).show()
             }

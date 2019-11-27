@@ -1,6 +1,9 @@
 package net.mizucoffee.canislupus.fragment
 
+import android.app.Activity
 import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
@@ -8,6 +11,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.AddPlayerActivity
@@ -49,6 +54,28 @@ class QrFragment : Fragment() {
             }
 
             override fun possibleResultPoints(resultPoints: MutableList<ResultPoint>?) {
+            }
+        })
+
+        binding.viewModel?.also { observeAlert(it) }
+    }
+
+
+    private fun observeAlert(viewModel: QrViewModel) {
+        viewModel.alert.observe(this, Observer {
+            activity?.let {
+                AlertDialog.Builder(it)
+                    .setTitle("QRコードを持ってない場合")
+                    .setView(R.layout.alert_new_account)
+                    .setPositiveButton("OK", null)
+                    .setNegativeButton("GUEST MODE"
+                    ) { _, _ ->
+                        val intent = Intent()
+                        activity?.setResult(RESULT_OK, intent)
+                        activity?.finish()
+                    }
+                    .setCancelable(true)
+                    .show()
             }
         })
     }
