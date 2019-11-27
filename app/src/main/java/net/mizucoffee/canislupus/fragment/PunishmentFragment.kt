@@ -34,6 +34,7 @@ class PunishmentFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.title = "canislupus - 投票結果"
         var max = 0
         var punishList: MutableList<Card> = mutableListOf()
 

@@ -43,6 +43,7 @@ class QrFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.title = "canislupus - ログイン"
         barcode_view.decodeSingle(object : BarcodeCallback {
             override fun barcodeResult(result: BarcodeResult?) {
                 if(result?.text == null) return
@@ -65,7 +66,7 @@ class QrFragment : Fragment() {
         viewModel.alert.observe(this, Observer {
             activity?.let {
                 AlertDialog.Builder(it)
-                    .setTitle("QRコードを持ってない場合")
+                    .setTitle("QRコードを作成する")
                     .setView(R.layout.alert_new_account)
                     .setPositiveButton("OK", null)
                     .setNegativeButton("GUEST MODE"

@@ -41,6 +41,7 @@ class AbilitySelectFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.title = "canislupus - 役職確認"
         val count = getGVM().getConfirmCount()
         val cards = getGVM().getCardList()
         val card = cards[count]

@@ -36,6 +36,7 @@ class VoteFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.title = "canislupus - 処刑投票"
         val count = getGVM().getConfirmCount()
         val cards = getGVM().getCardList()
         val myCard = cards[count]

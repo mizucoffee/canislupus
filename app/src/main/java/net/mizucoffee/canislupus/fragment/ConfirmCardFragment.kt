@@ -32,6 +32,7 @@ class ConfirmCardFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.title = "canislupus - 役職確認"
         binding.viewModel?.name = getGVM().getPlayers()[getGVM().getConfirmCount()].name
         binding.viewModel?.also { observeTransition(it) }
     }

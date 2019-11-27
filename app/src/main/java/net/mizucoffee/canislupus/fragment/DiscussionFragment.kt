@@ -33,6 +33,7 @@ class DiscussionFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.title = "canislupus - 話し合い"
         binding.viewModel?.startTimer()
         binding.viewModel?.also { observeTransition(it) }
     }

@@ -33,6 +33,7 @@ class ResultFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        activity?.title = "canislupus - 結果表示"
         binding.viewModel = ViewModelProviders.of(this).get(ResultViewModel::class.java)
 
         val winner = Card.checkWinner(getGVM().getExecuteList(), getGVM().getCardList())

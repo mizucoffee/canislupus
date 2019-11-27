@@ -39,6 +39,8 @@ class PinFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        activity?.title = "canislupus - ログイン"
         binding.viewModel?.also { observeTransition(it) }
     }
 

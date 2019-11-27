@@ -35,6 +35,7 @@ class SetNumberFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.title = "canislupus - 人数設定"
         positionRecycler.apply {
             layoutManager = LinearLayoutManager(activity?.applicationContext)
             adapter = PositionAdapter(getGVM().getPlayers().size)

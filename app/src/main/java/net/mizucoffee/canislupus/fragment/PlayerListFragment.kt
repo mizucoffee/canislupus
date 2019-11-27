@@ -40,6 +40,7 @@ class PlayerListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.title = "canislupus - 人数選択"
         playerList.layoutManager = LinearLayoutManager(activity?.applicationContext)
         playerList.addItemDecoration(
             DividerItemDecoration(playerList.context, DividerItemDecoration.VERTICAL)

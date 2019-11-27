@@ -33,6 +33,7 @@ class CheckPlayerFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        activity?.title = "canislupus - 処刑投票"
         binding.viewModel?.name = getGVM().getPlayers()[getGVM().getConfirmCount()].name
         binding.viewModel?.also { observeTransition(it) }
     }
