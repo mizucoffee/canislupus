@@ -1,7 +1,11 @@
 package net.mizucoffee.canislupus.model.werewolf
 
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.Color
 import android.view.View
+import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.enumerate.CardEnum
@@ -29,10 +33,40 @@ class Thief : Villager() {
     }
 
     override fun abilityResult(cards: MutableList<Card>, key: String, context: Context): View? {
-        val tv = TextView(context)
-        tv.text = "あなたは${cards.find { it.trueOwner?.id == owner?.id }?.name}になりました"
-        return tv
+        val root = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(
+                dp2px(24, context.resources),
+                dp2px(24, context.resources),
+                dp2px(24, context.resources),
+                dp2px(12, context.resources)
+            )
+        }
+        root.addView(TextView(context).apply {
+            text = "あなたは"
+            textSize = 24f
+            textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+        })
+        root.addView(TextView(context).apply {
+            text = "${cards.find { it.trueOwner?.id == owner?.id }?.name}"
+            textSize = 48f
+            setPadding(0, dp2px(8, context.resources), 0, dp2px(8, context.resources))
+            textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+            setTextColor(Color.parseColor("#000000"))
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+        })
+        root.addView(TextView(context).apply {
+            text = "になりました"
+            textSize = 24f
+            textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+            width = ViewGroup.LayoutParams.MATCH_PARENT
+        })
+        return root
     }
+
+    private fun dp2px(dp: Int, resources: Resources) =
+        (dp * resources.displayMetrics.density + 0.5f).toInt()
 
     override fun hasAbility(): Boolean = true
     override fun shouldSelectList(): Boolean = true

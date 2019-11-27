@@ -1,7 +1,11 @@
 package net.mizucoffee.canislupus.model.werewolf
 
 import android.content.Context
+import android.content.res.Resources
+import android.graphics.Color
 import android.view.View
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.LinearLayout
 import android.widget.TextView
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.enumerate.CardEnum
@@ -18,19 +22,50 @@ class Seer : Villager() {
     override fun getMiniMessage(cards: List<Card>): String? = null
     override fun ability(cards: MutableList<Card>, selectedKey: String): MutableList<Card> = cards
     override fun abilityResult(cards: MutableList<Card>, key: String, context: Context): View? {
-        val tv = TextView(context)
+        val root = LinearLayout(context).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(
+                dp2px(24, context.resources),
+                dp2px(24, context.resources),
+                dp2px(24, context.resources),
+                dp2px(12, context.resources)
+            )
+        }
         val pos = cards.find { it.owner?.id == key }
         pos?.also { p ->
             p.owner?.also {
-                tv.text = "${it.name}さんは${p.name}でした"
+                root.addView(TextView(context).apply {
+                    text = "${it.name}さんは"
+                    textSize = 24f
+                    textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                    width = MATCH_PARENT
+                })
+                root.addView(TextView(context).apply {
+                    text = "${p.name}"
+                    textSize = 48f
+                    setPadding(0, dp2px(8, context.resources), 0, dp2px(8, context.resources))
+                    textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                    setTextColor(Color.parseColor("#000000"))
+                    width = MATCH_PARENT
+                })
+                root.addView(TextView(context).apply {
+                    text = "でした"
+                    textSize = 24f
+                    textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                    width = MATCH_PARENT
+                })
             }
         }
         if (pos == null) {
             val list = cards.filter { it.owner == null }.map { it.name }
-            tv.text = "場のカードは${list.joinToString("と")}でした"
+            root.addView(TextView(context).apply { text = "場のカードは${list.joinToString("と")}でした" })
         }
-        return tv
+        return root
     }
+
+    private fun dp2px(dp: Int, resources: Resources) =
+        (dp * resources.displayMetrics.density + 0.5f).toInt()
+
     override fun hasAbility(): Boolean = true
     override fun shouldSelectList(): Boolean = true
     override fun getSelectList(cards: MutableList<Card>): Map<String, String>? {
@@ -42,5 +77,6 @@ class Seer : Villager() {
         map["OTHER"] = "場のカード"
         return map
     }
+
     override fun getSelectMessage(): String? = "占うカードを選んでください"
 }
