@@ -1,5 +1,7 @@
 package net.mizucoffee.canislupus.fragment
 
+import android.app.Activity.RESULT_CANCELED
+import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -61,30 +61,37 @@ class PinFragment : Fragment() {
     private fun observeTransition(viewModel: PinViewModel) {
         viewModel.pin.observe(this, Observer {
             if(it.length >= 4) {
-                CanislupusService.createService().playerAuth(getAVM().qr, crypt(getAVM().qr, it.toInt())).enqueue(
-                    object : Callback<ApiResponse<Player>> {
-                        override fun onFailure(call: Call<ApiResponse<Player>>, t: Throwable) {
-                            val intent = Intent()
-                            activity?.setResult(RESULT_CANCELED, intent)
-                            activity?.finish()
-                        }
-
-                        override fun onResponse(
-                            call: Call<ApiResponse<Player>>,
-                            response: Response<ApiResponse<Player>>
-                        ) {
-                            val intent = Intent()
-
-                            if(response.body()?.data != null) {
-                                intent.putExtra("player", response.body()?.data)
-                                activity?.setResult(RESULT_OK, intent)
-                            } else {
+                if(!Regex("^[a-z0-9]{17}$").matches(getAVM().qr)) {
+                    val intent = Intent()
+                    activity?.setResult(RESULT_CANCELED, intent)
+                    activity?.finish()
+                } else {
+                    CanislupusService.createService()
+                        .playerAuth(getAVM().qr, crypt(getAVM().qr, it.toInt())).enqueue(
+                        object : Callback<ApiResponse<Player>> {
+                            override fun onFailure(call: Call<ApiResponse<Player>>, t: Throwable) {
+                                val intent = Intent()
                                 activity?.setResult(RESULT_CANCELED, intent)
+                                activity?.finish()
                             }
-                            activity?.finish()
+
+                            override fun onResponse(
+                                call: Call<ApiResponse<Player>>,
+                                response: Response<ApiResponse<Player>>
+                            ) {
+                                val intent = Intent()
+
+                                if (response.body()?.data != null) {
+                                    intent.putExtra("player", response.body()?.data)
+                                    activity?.setResult(RESULT_OK, intent)
+                                } else {
+                                    activity?.setResult(RESULT_CANCELED, intent)
+                                }
+                                activity?.finish()
+                            }
                         }
-                    }
-                )
+                    )
+                }
 
             }
         })
