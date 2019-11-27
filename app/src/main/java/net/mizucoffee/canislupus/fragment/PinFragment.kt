@@ -1,5 +1,6 @@
 package net.mizucoffee.canislupus.fragment
 
+import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import androidx.lifecycle.ViewModelProviders
@@ -12,7 +13,7 @@ import androidx.lifecycle.Observer
 
 import net.mizucoffee.canislupus.activity.AddPlayerActivity
 import net.mizucoffee.canislupus.databinding.FragmentPinBinding
-import net.mizucoffee.canislupus.model.RPlayer
+import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.model.ApiResponse
 import net.mizucoffee.canislupus.repository.CanislupusService
 import net.mizucoffee.canislupus.viewmodel.PinViewModel
@@ -61,20 +62,25 @@ class PinFragment : Fragment() {
         viewModel.pin.observe(this, Observer {
             if(it.length >= 4) {
                 CanislupusService.createService().playerAuth(getAVM().qr, crypt(getAVM().qr, it.toInt())).enqueue(
-                    object : Callback<ApiResponse<RPlayer>> {
-                        override fun onFailure(call: Call<ApiResponse<RPlayer>>, t: Throwable) {
-                            println("ERROR: ${t.message}")
+                    object : Callback<ApiResponse<Player>> {
+                        override fun onFailure(call: Call<ApiResponse<Player>>, t: Throwable) {
+                            val intent = Intent()
+                            activity?.setResult(RESULT_CANCELED, intent)
+                            activity?.finish()
                         }
 
                         override fun onResponse(
-                            call: Call<ApiResponse<RPlayer>>,
-                            response: Response<ApiResponse<RPlayer>>
+                            call: Call<ApiResponse<Player>>,
+                            response: Response<ApiResponse<Player>>
                         ) {
-                            println("NAME: ${response.body()}")
-
                             val intent = Intent()
-                            intent.putExtra("pin", it.toInt())
-                            activity?.setResult(RESULT_OK, intent)
+
+                            if(response.body()?.data != null) {
+                                intent.putExtra("player", response.body()?.data)
+                                activity?.setResult(RESULT_OK, intent)
+                            } else {
+                                activity?.setResult(RESULT_CANCELED, intent)
+                            }
                             activity?.finish()
                         }
                     }

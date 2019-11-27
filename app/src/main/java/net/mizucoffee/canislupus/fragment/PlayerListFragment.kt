@@ -12,13 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.fragment_player_list.*
 import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.AddPlayerActivity
 import net.mizucoffee.canislupus.databinding.FragmentPlayerListBinding
+import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.viewmodel.PlayerListViewModel
 
 class PlayerListFragment : Fragment() {
@@ -80,8 +80,11 @@ class PlayerListFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             0 -> if (AppCompatActivity.RESULT_OK == resultCode) {
-                val pin = data?.getIntExtra("pin", 0) ?: 0
-                println(pin)
+                val player = data?.getSerializableExtra("player")
+                if(player is Player)
+                    binding.viewModel?.setPlayer(player)
+            } else {
+                Toast.makeText(activity, "ログインに失敗しました", Toast.LENGTH_SHORT).show()
             }
         }
     }

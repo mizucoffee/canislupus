@@ -19,14 +19,19 @@ class PlayerListViewModel : ViewModel() {
 
     fun addPlayer(pos: Int, playerCount: Int) {
         if (pos != playerCount - 1) return
-
         transition.postValue(1)
-//        val list = adapter.players.toMutableList()
-//        val count = list.size.plus(1)
-//        list.add(Player("Player $count", "$count"))
-//
-//        players.postValue(list)
-//        adapter.players = list
+    }
+
+    fun setPlayer(player: Player) {
+        if(adapter.players.find { it.id == player.id } != null) {
+            toast.postValue("既に登録されています")
+            return
+        }
+        val list = adapter.players.toMutableList()
+        list.add(player)
+
+        players.postValue(list)
+        adapter.players = list
     }
 
     fun next() {

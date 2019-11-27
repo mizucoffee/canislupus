@@ -1,3 +1,12 @@
 package net.mizucoffee.canislupus.model
 
-data class Player(val name: String, val id: String)
+import java.io.Serializable
+
+data class Player(
+    val _id: String,
+    val id: String,
+    val name: String,
+    val win: Int,
+    val lose: Int,
+    val draw: Int
+): Serializable
