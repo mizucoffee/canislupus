@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View"/>
+
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="net.mizucoffee.canislupus.viewmodel.DiscussionViewModel" />
@@ -14,150 +16,108 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="32dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="残り時間"
-                android:textColor="#aaaaaa"
-                android:textSize="32sp" />
-
-            <TextView
-                android:id="@+id/counter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@{viewModel.counterText}"
-                android:textColor="#000000"
-                android:textSize="54sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:text="人数"
-                android:textColor="#aaaaaa"
-                android:textSize="32sp" />
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="32dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingVertical="32dp">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:text="残り時間"
+                    android:textColor="#aaaaaa"
+                    android:textSize="32sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="人狼: 2"
-                        android:textColor="#aaaaaa"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="人狼: 2"
-                        android:textColor="#aaaaaa"
-                        android:textSize="24sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/counter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:text="@{viewModel.counterText}"
+                    android:textColor="#000000"
+                    android:textSize="54sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="人狼: 2"
-                        android:textColor="#aaaaaa"
-                        android:textSize="24sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="人狼: 2"
-                        android:textColor="#aaaaaa"
-                        android:textSize="24sp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:text="人数"
+                    android:textColor="#aaaaaa"
+                    android:textSize="32sp" />
 
-                    <TextView
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="32dp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center">
+
+                    <LinearLayout
+                        android:id="@+id/cardList1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="人狼: 2"
-                        android:textColor="#aaaaaa"
-                        android:textSize="24sp" />
+                        android:orientation="vertical">
 
-                    <TextView
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/cardList2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="人狼: 2"
-                        android:textColor="#aaaaaa"
-                        android:textSize="24sp" />
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/quiteBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bottom_button"
+                    android:enabled="@{!viewModel.finished}"
+                    android:paddingLeft="32dp"
+                    android:paddingTop="16dp"
+                    android:paddingRight="32dp"
+                    android:paddingBottom="16dp"
+                    android:text="静かになった時に押すボタン"
+                    android:textColor="#fff"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/trueBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bottom_button"
+                    android:enabled="@{!viewModel.finished}"
+                    android:paddingLeft="32dp"
+                    android:paddingTop="16dp"
+                    android:paddingRight="32dp"
+                    android:paddingBottom="16dp"
+                    android:text="1/3の確率で事実を告げるボタン"
+                    android:textColor="#fff"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/quiteBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/bottom_button"
-                android:paddingLeft="32dp"
-                android:paddingTop="16dp"
-                android:paddingRight="32dp"
-                android:paddingBottom="16dp"
-                android:text="静かになった時に押すボタン"
-                android:enabled="@{!viewModel.finished}"
-                android:textColor="#fff"
-                android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/trueBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/bottom_button"
-                android:paddingLeft="32dp"
-                android:paddingTop="16dp"
-                android:paddingRight="32dp"
-                android:paddingBottom="16dp"
-                android:text="1/3の確率で事実を告げるボタン"
-                android:enabled="@{!viewModel.finished}"
-                android:textColor="#fff"
-                android:textSize="20sp" />
-
-        </LinearLayout>
+        </ScrollView>
 
         <Button
             android:id="@+id/nextBtn"
@@ -165,15 +125,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/bottom_button"
+            android:onClick="@{() -> viewModel.next()}"
             android:paddingLeft="32dp"
             android:paddingTop="16dp"
             android:paddingRight="32dp"
             android:paddingBottom="16dp"
-            android:onClick="@{() -> viewModel.next()}"
             android:text="話し合い終了"
             android:textColor="#fff"
             android:textSize="20sp" />
-
     </LinearLayout>
-
 </layout>
