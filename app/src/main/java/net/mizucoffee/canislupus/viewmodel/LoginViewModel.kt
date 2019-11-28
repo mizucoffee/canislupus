@@ -1,5 +1,6 @@
 package net.mizucoffee.canislupus.viewmodel
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import net.mizucoffee.canislupus.model.ApiResponse
@@ -15,23 +16,27 @@ class LoginViewModel : ViewModel() {
     val transition = MutableLiveData<Player>()
     val id = MutableLiveData<String>("")
     val passcode = MutableLiveData<String>("")
-    val toast = MutableLiveData<String>()
+    val snackbar = MutableLiveData<Int>()
 
-    fun login() {
+    fun login(v: View) {
 
         if (id.value == "" || passcode.value == "") {
-            toast.postValue("全ての項目を入力してください")
+            snackbar.postValue(4)
             return
         }
         if (passcode.value?.length != 4) {
-            toast.postValue("パスコードは4桁入力してください")
+            snackbar.postValue(5)
             return
         }
+
+        v.isEnabled = false
+        snackbar.postValue(1)
 
         CanislupusService.createService().authPin("${id.value}").enqueue(
             object : Callback<ApiResponse<Qr>> {
                 override fun onFailure(call: Call<ApiResponse<Qr>>, t: Throwable) {
-                    toast.postValue("インターネット接続を確認してください")
+                    snackbar.postValue(2)
+                    v.isEnabled = true
                 }
 
                 override fun onResponse(
@@ -45,21 +50,23 @@ class LoginViewModel : ViewModel() {
                             Crypt.crypt(it.data.qr, passcode.value?.toInt() ?: 0)
                         ).enqueue(object : Callback<ApiResponse<Player>> {
                             override fun onFailure(call: Call<ApiResponse<Player>>, t: Throwable) {
-                                toast.postValue("失敗しました")
+                                snackbar.postValue(3)
+                                v.isEnabled = true
                             }
 
                             override fun onResponse(
                                 call: Call<ApiResponse<Player>>,
                                 res: Response<ApiResponse<Player>>
                             ) {
-                                if(res.isSuccessful) {
+                                if (res.isSuccessful) {
+                                    snackbar.postValue(0)
                                     transition.postValue(res.body()?.data)
                                 } else {
-                                    toast.postValue("ログインに失敗しました")
+                                    snackbar.postValue(3)
                                 }
+                                v.isEnabled = true
                             }
                         })
-
                     }
                 }
             }

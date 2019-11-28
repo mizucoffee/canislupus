@@ -26,7 +26,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingVertical="32dp">
+                android:paddingVertical="32dp"
+                android:layout_gravity="center">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -83,36 +84,36 @@
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/quiteBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bottom_button"
-                    android:enabled="@{!viewModel.finished}"
-                    android:paddingLeft="32dp"
-                    android:paddingTop="16dp"
-                    android:paddingRight="32dp"
-                    android:paddingBottom="16dp"
-                    android:text="静かになった時に押すボタン"
-                    android:textColor="#fff"
-                    android:textSize="20sp" />
+<!--                <Button-->
+<!--                    android:id="@+id/quiteBtn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:background="@drawable/bottom_button"-->
+<!--                    android:enabled="@{!viewModel.finished}"-->
+<!--                    android:paddingLeft="32dp"-->
+<!--                    android:paddingTop="16dp"-->
+<!--                    android:paddingRight="32dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:text="静かになった時に押すボタン"-->
+<!--                    android:textColor="#fff"-->
+<!--                    android:textSize="20sp" />-->
 
-                <Button
-                    android:id="@+id/trueBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/bottom_button"
-                    android:enabled="@{!viewModel.finished}"
-                    android:paddingLeft="32dp"
-                    android:paddingTop="16dp"
-                    android:paddingRight="32dp"
-                    android:paddingBottom="16dp"
-                    android:text="1/3の確率で事実を告げるボタン"
-                    android:textColor="#fff"
-                    android:textSize="20sp" />
+<!--                <Button-->
+<!--                    android:id="@+id/trueBtn"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    android:layout_marginTop="16dp"-->
+<!--                    android:background="@drawable/bottom_button"-->
+<!--                    android:enabled="@{!viewModel.finished}"-->
+<!--                    android:paddingLeft="32dp"-->
+<!--                    android:paddingTop="16dp"-->
+<!--                    android:paddingRight="32dp"-->
+<!--                    android:paddingBottom="16dp"-->
+<!--                    android:text="1/3の確率で事実を告げるボタン"-->
+<!--                    android:textColor="#fff"-->
+<!--                    android:textSize="20sp" />-->
 
             </LinearLayout>
 

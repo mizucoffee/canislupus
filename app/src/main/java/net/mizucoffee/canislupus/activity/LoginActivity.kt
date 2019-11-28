@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_show_card.*
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.databinding.ActivityLoginBinding
 import net.mizucoffee.canislupus.repository.PrefService
@@ -24,17 +26,29 @@ class LoginActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         binding.viewModel?.also {
-            observeToast(it)
             observeTransition(it)
+            observeSnackbar(it)
         }
     }
 
-    private fun observeToast(viewModel: LoginViewModel) {
-        viewModel.toast.observe(this, Observer {
-            if (it != null) Toast.makeText(applicationContext, it, Toast.LENGTH_SHORT).show()
+    private var snackbar: Snackbar? = null
+    private fun observeSnackbar(viewModel: LoginViewModel) {
+        viewModel.snackbar.observe(this, Observer {
+            snackbar?.dismiss()
+            val msg = when (it) {
+                1 -> "ログイン中..."
+                2 -> "インターネット接続を確認してください"
+                3 -> "ログインに失敗しました"
+                4 -> "全ての項目を入力してください"
+                5 -> "パスコードは4桁入力してください"
+                else -> null
+            }
+            if (msg != null) {
+                snackbar = Snackbar.make(binding.root, msg, Snackbar.LENGTH_INDEFINITE)
+                snackbar?.show()
+            }
         })
     }
-
 
     private fun observeTransition(viewModel: LoginViewModel) {
         viewModel.transition.observe(this, Observer {

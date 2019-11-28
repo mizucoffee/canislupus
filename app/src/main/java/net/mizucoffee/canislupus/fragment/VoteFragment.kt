@@ -3,6 +3,7 @@ package net.mizucoffee.canislupus.fragment
 import android.graphics.Color
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,7 @@ class VoteFragment : Fragment() {
                 setTextColor(Color.WHITE)
                 layoutParams = LinearLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
                     setMargins(0, dp2px(16), 0, 0)
+                    gravity = Gravity.CENTER
                 }
                 setPadding(dp2px(32), dp2px(16), dp2px(32), dp2px(16))
                 setBackgroundResource(R.drawable.bottom_button)

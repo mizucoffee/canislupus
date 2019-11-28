@@ -11,10 +11,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
 
 import net.mizucoffee.canislupus.activity.LoginActivity
 import net.mizucoffee.canislupus.databinding.FragmentWelcomeLoginBinding
 import net.mizucoffee.canislupus.repository.PrefService
+import net.mizucoffee.canislupus.viewmodel.LoginViewModel
 import net.mizucoffee.canislupus.viewmodel.WelcomeLoginViewModel
 
 class WelcomeLoginFragment : Fragment() {
@@ -39,6 +41,30 @@ class WelcomeLoginFragment : Fragment() {
             observeLogin(it)
             observeTransition(it)
         }
+        binding.viewModel?.also {
+            observeTransition(it)
+            observeSnackbar(it)
+        }
+    }
+
+    private var snackbar: Snackbar? = null
+    private fun observeSnackbar(viewModel: WelcomeLoginViewModel) {
+        viewModel.snackbar.observe(this, Observer {
+            snackbar?.dismiss()
+            val msg = when (it) {
+                1 -> "登録中..."
+                2 -> "インターネット接続を確認してください"
+                3 -> "登録に失敗しました"
+                4 -> "既に登録されているIDです\n別のIDをお試しください"
+                5 -> "全ての項目を入力してください"
+                6 -> "パスコードは4桁入力してください"
+                else -> null
+            }
+            if (msg != null) {
+                snackbar = Snackbar.make(binding.root, msg, Snackbar.LENGTH_INDEFINITE)
+                snackbar?.show()
+            }
+        })
     }
 
     private fun observeToast(viewModel: WelcomeLoginViewModel) {

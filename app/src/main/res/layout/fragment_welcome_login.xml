@@ -8,10 +8,9 @@
             type="net.mizucoffee.canislupus.viewmodel.WelcomeLoginViewModel" />
     </data>
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".fragment.WelcomeLoginFragment">
 
         <LinearLayout
@@ -19,7 +18,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
             android:orientation="vertical">
 
@@ -95,5 +93,5 @@
                 android:text="既にプレーヤー登録してますか？" />
         </LinearLayout>
 
-    </FrameLayout>
+    </ScrollView>
 </layout>

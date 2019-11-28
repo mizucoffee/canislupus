@@ -21,21 +21,24 @@ class WelcomeLoginViewModel : ViewModel() {
     val toast = MutableLiveData<String>()
     val transition = MutableLiveData<Player>()
     val login = MutableLiveData<Int>()
+    val snackbar = MutableLiveData<Int>()
 
     fun register() {
         if (id.value == "" || name.value == "" || passcode.value == "") {
-            toast.postValue("全ての項目を入力してください")
+            snackbar.postValue(5)
             return
         }
         if (passcode.value?.length != 4) {
-            toast.postValue("パスコードは4桁入力してください")
+            snackbar.postValue(6)
             return
         }
+
+        snackbar.postValue(1)
 
         CanislupusService.createService().uniq().enqueue(
             object : Callback<ApiResponse<Qr>> {
                 override fun onFailure(call: Call<ApiResponse<Qr>>, t: Throwable) {
-                    toast.postValue("インターネット接続を確認してください")
+                    snackbar.postValue(2)
                 }
 
                 override fun onResponse(
@@ -51,7 +54,7 @@ class WelcomeLoginViewModel : ViewModel() {
                             Crypt.crypt(it.data.qr, passcode.value?.toInt() ?: 0)
                         ).enqueue(object : Callback<ApiResponse<Player>> {
                             override fun onFailure(call: Call<ApiResponse<Player>>, t: Throwable) {
-                                toast.postValue("失敗しました")
+                                snackbar.postValue(3)
                             }
 
                             override fun onResponse(
@@ -62,9 +65,10 @@ class WelcomeLoginViewModel : ViewModel() {
                                     transition.postValue(res.body()?.data)
                                 } else {
                                     if(res.code() == 400)
-                                        toast.postValue("既に登録されているIDです\n別のIDをお試しください")
+                                        snackbar.postValue(4)
                                     else
-                                        toast.postValue("失敗しました")
+                                        snackbar.postValue(3)
+                                    snackbar.postValue(0)
                                 }
                             }
                         })
