@@ -13,8 +13,7 @@
         <ImageView
             android:id="@+id/symbol"
             android:layout_width="84dp"
-            android:layout_height="84dp"
-            tools:src="@drawable/werewolf" />
+            android:layout_height="84dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

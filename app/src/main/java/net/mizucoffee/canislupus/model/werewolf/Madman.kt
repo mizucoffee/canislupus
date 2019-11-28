@@ -18,7 +18,7 @@ class Madman : Card() {
     override val card: CardEnum = CardEnum.MADMAN
     override val description: String =
         "【特殊能力】\n人狼陣営の村人で、特殊能力はありません。\n自分が殺されても人狼が生き残れば勝利となります。\n\n【人狼陣営の勝利条件】\n人狼が吊られなければ勝利です。ただし、吊人が吊られた　場合は吊人の単独勝利となります。"
-    override val symbol: Int = R.drawable.madman
+    override val symbol: Int = R.drawable.ic_madman
     override val defaultPlayers: Map<Int, Int> = mapOf(3 to 1, 4 to 1, 5 to 1, 6 to 1)
     override val isRequired: Boolean = false
 

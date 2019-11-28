@@ -18,7 +18,7 @@ class Tanner : Card() {
     override val card: CardEnum = CardEnum.TANNER
     override val description: String =
         "【特殊能力】\n自分が吊られたら勝利です。\n\n【第三陣営の勝利条件】\n自分が吊られたら勝利となります。他のどの陣営にも属しません。"
-    override val symbol: Int = R.drawable.tanner
+    override val symbol: Int = R.drawable.ic_tanner
     override val defaultPlayers: Map<Int, Int> = mapOf(3 to 0, 4 to 0, 5 to 1, 6 to 1)
     override val isRequired: Boolean = false
 
