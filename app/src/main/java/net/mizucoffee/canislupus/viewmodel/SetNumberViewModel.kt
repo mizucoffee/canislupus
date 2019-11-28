@@ -9,6 +9,7 @@ import net.mizucoffee.canislupus.model.werewolf.Card
 class SetNumberViewModel : ViewModel() {
     val cardList = MutableLiveData<MutableList<Card>>()
     val transition = MutableLiveData<Int>()
+    val nextEnabled = MutableLiveData<Boolean>(true)
 
     fun initCard(playerCounts: Map<CardEnum, Int>, players: List<Player>) {
         val list = mutableListOf<Card>()

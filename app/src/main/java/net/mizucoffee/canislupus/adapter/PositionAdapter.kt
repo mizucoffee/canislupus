@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_card.view.*
 import net.mizucoffee.canislupus.R
@@ -19,6 +20,7 @@ class PositionAdapter(private val playerCount: Int) :
 
     val countList: MutableMap<CardEnum, Int> = mutableMapOf()
     var primaryColor: Int = 0
+    var listener: ((count: Int) -> Unit)? = null
 
     override fun onCreateViewHolder(p: ViewGroup, viewType: Int): PositionViewHolder {
         val view = LayoutInflater.from(p.context).inflate(R.layout.item_card, p, false)
@@ -44,9 +46,14 @@ class PositionAdapter(private val playerCount: Int) :
         holder.btn.forEachIndexed { i, btn ->
             btn.setOnClickListener {
                 countList[CardEnum.values()[p]] = i
+                listener?.invoke(countList.toList().sumBy { it.second })
                 setCount(holder, i)
             }
         }
+    }
+
+    fun setCountListener(listener: (count: Int) -> Unit) {
+        this.listener = listener
     }
 
     private fun setCount(holder: PositionViewHolder, c: Int) {

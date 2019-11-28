@@ -38,7 +38,12 @@ class SetNumberFragment : Fragment() {
         activity?.title = "canislupus - 人数設定"
         positionRecycler.apply {
             layoutManager = LinearLayoutManager(activity?.applicationContext)
-            adapter = PositionAdapter(getGVM().getPlayers().size)
+            val a = PositionAdapter(getGVM().getPlayers().size)
+            a.setCountListener {
+                binding.viewModel?.nextEnabled?.postValue(it == getGVM().getPlayers().size + 2)
+            }
+            adapter = a
+
         }
 
         binding.viewModel?.also {
