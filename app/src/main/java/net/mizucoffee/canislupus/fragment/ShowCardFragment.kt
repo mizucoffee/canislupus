@@ -14,7 +14,6 @@ import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.viewmodel.ShowCardViewModel
 import net.mizucoffee.canislupus.model.werewolf.Card
 import android.content.DialogInterface
-import androidx.core.content.res.ResourcesCompat
 import kotlinx.android.synthetic.main.fragment_show_card.*
 import net.mizucoffee.canislupus.databinding.FragmentShowCardBinding
 
@@ -70,7 +69,7 @@ class ShowCardFragment : Fragment() {
                 activity?.let {
                     AlertDialog.Builder(it)
                         .setTitle("結果")
-                        .setView(card.abilityResult(getGVM().getCardList(), "", it))
+                        .setView(card.abilityResultView(getGVM().getCardList(), "", it))
                         .setPositiveButton("OK") { _: DialogInterface, _: Int -> transition(card) }
                         .setCancelable(false)
                         .show()

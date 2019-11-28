@@ -36,8 +36,10 @@ class Madman : Card() {
         }
     }
     override fun ability(cards: MutableList<Card>, selectedKey: String): MutableList<Card> = cards
-    override fun abilityResult(cards: MutableList<Card>, key: String, context: Context): View? =
+    override fun abilityResultView(cards: MutableList<Card>, key: String, context: Context): View? =
         null
+
+    override fun abilityResultText(): String? = null
     override fun hasAbility(): Boolean = false
     override fun shouldSelectList(): Boolean = false
     override fun getSelectList(cards: MutableList<Card>): Map<String, String>? = null

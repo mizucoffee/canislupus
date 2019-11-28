@@ -22,7 +22,8 @@ abstract class Card {
     abstract fun getMiniMessage(cards: List<Card>): String?
     abstract fun checkWinLose(executed: List<Card>, cards: List<Card>): Int
     abstract fun ability(cards: MutableList<Card>, selectedKey: String): MutableList<Card>
-    abstract fun abilityResult(cards: MutableList<Card>, key: String, context: Context): View?
+    abstract fun abilityResultView(cards: MutableList<Card>, key: String, context: Context): View?
+    abstract fun abilityResultText(): String?
     abstract fun hasAbility(): Boolean
     abstract fun shouldSelectList(): Boolean
     abstract fun getSelectList(cards: MutableList<Card>): Map<String, String>?

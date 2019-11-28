@@ -20,11 +20,14 @@ class Thief : Villager() {
     override val defaultPlayers: Map<Int, Int> = mapOf(3 to 0, 4 to 1, 5 to 1, 6 to 1)
     override val isRequired: Boolean = false
 
+    var resMes = ""
+
     override fun getMiniMessage(cards: List<Card>): String? = null
 
     override fun ability(cards: MutableList<Card>, selectedKey: String): MutableList<Card> {
         val me = trueOwner
         val target = cards.find { it.trueOwner?.id == selectedKey }?.trueOwner
+        resMes = "${me?.name} <- 入れ替え -> ${target?.name}"
         return cards.map {
             if (it.trueOwner?.id == me?.id) it.trueOwner = target
             else if (it.trueOwner?.id == target?.id) it.trueOwner = me
@@ -32,7 +35,7 @@ class Thief : Villager() {
         }.toMutableList()
     }
 
-    override fun abilityResult(cards: MutableList<Card>, key: String, context: Context): View? {
+    override fun abilityResultView(cards: MutableList<Card>, key: String, context: Context): View? {
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(
@@ -64,6 +67,8 @@ class Thief : Villager() {
         })
         return root
     }
+
+    override fun abilityResultText(): String? = resMes
 
     private fun dp2px(dp: Int, resources: Resources) =
         (dp * resources.displayMetrics.density + 0.5f).toInt()

@@ -19,9 +19,11 @@ class Seer : Villager() {
     override val defaultPlayers: Map<Int, Int> = mapOf(3 to 1, 4 to 1, 5 to 1, 6 to 1)
     override val isRequired: Boolean = false
 
+    var resMes = ""
+
     override fun getMiniMessage(cards: List<Card>): String? = null
     override fun ability(cards: MutableList<Card>, selectedKey: String): MutableList<Card> = cards
-    override fun abilityResult(cards: MutableList<Card>, key: String, context: Context): View? {
+    override fun abilityResultView(cards: MutableList<Card>, key: String, context: Context): View? {
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(
@@ -34,6 +36,7 @@ class Seer : Villager() {
         val pos = cards.find { it.owner?.id == key }
         pos?.also { p ->
             p.owner?.also {
+                resMes = "${owner?.name} - 占い -> ${it.name}"
                 root.addView(TextView(context).apply {
                     text = "${it.name}さんは"
                     textSize = 24f
@@ -57,6 +60,7 @@ class Seer : Villager() {
             }
         }
         if (pos == null) {
+            resMes = "${owner?.name} - 占い -> 場のカード"
             val list = cards.filter { it.owner == null }.map { it.name }
             root.addView(TextView(context).apply {
                 text = "場のカードは"
@@ -85,6 +89,7 @@ class Seer : Villager() {
     private fun dp2px(dp: Int, resources: Resources) =
         (dp * resources.displayMetrics.density + 0.5f).toInt()
 
+    override fun abilityResultText(): String? = resMes
     override fun hasAbility(): Boolean = true
     override fun shouldSelectList(): Boolean = true
     override fun getSelectList(cards: MutableList<Card>): Map<String, String>? {

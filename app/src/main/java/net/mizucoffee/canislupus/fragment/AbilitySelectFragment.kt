@@ -65,7 +65,7 @@ class AbilitySelectFragment : Fragment() {
                         AlertDialog.Builder(context)
                             .setTitle("結果")
                             .setView(
-                                card.abilityResult(getGVM().getCardList(), data.key, context)
+                                card.abilityResultView(getGVM().getCardList(), data.key, context)
                             )
                             .setPositiveButton("OK") { _: DialogInterface, _: Int ->
                                 getGVM().setConfirmCount(getGVM().getConfirmCount() + 1)
