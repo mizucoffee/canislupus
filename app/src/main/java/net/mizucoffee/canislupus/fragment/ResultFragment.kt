@@ -45,9 +45,7 @@ class ResultFragment : Fragment() {
 
     private fun observeTransition(viewModel: ResultViewModel) {
         viewModel.transition.observe(this, Observer {
-            val transaction = activity?.supportFragmentManager?.beginTransaction()
-            transaction?.replace(R.id.gameFragmentLayout, PlayerListFragment.newInstance())
-                ?.commit()
+            activity?.finish()
         })
     }
 }

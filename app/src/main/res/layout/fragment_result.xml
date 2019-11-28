@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="54dp"
             android:background="@drawable/bottom_button"
-            android:text="NEW GAME"
+            android:text="EXIT"
             android:onClick="@{() -> viewModel.next()}"
             android:textColor="#fff"
             android:textSize="20sp" />

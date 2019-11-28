@@ -1,5 +1,6 @@
 package net.mizucoffee.canislupus.activity
 
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
@@ -23,5 +24,15 @@ class AddPlayerActivity : AppCompatActivity() {
             transaction.add(R.id.fragmentLayout, QrFragment.newInstance())
             transaction.commit()
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        if(requestCode == 1)
+            if (!(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED))
+                finish()
+        print(grantResults)
     }
 }
