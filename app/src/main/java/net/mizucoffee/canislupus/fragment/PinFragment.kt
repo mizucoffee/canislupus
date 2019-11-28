@@ -16,6 +16,7 @@ import net.mizucoffee.canislupus.databinding.FragmentPinBinding
 import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.model.ApiResponse
 import net.mizucoffee.canislupus.repository.CanislupusService
+import net.mizucoffee.canislupus.repository.Crypt
 import net.mizucoffee.canislupus.viewmodel.PinViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,22 +45,6 @@ class PinFragment : Fragment() {
         binding.viewModel?.also { observeTransition(it) }
     }
 
-    private val cipher = "cpm8sk10hxgwy95uen7ofr4lvbj32tadq6zi"
-    private val plain = "0123456789abcdefghijklmnopqrstuvwxyz"
-
-    fun crypt(text: String, number: Int): String {
-        var result = text
-        var crypted = ""
-        for (k in 0..number) {
-            for (i in result.indices) {
-                crypted += cipher[(plain.indexOf(result[i]) + i) % plain.length]
-            }
-            result = crypted
-            crypted = ""
-        }
-        return result
-    }
-
     private fun observeTransition(viewModel: PinViewModel) {
         viewModel.pin.observe(this, Observer {
             if(it.length >= 4) {
@@ -69,7 +54,7 @@ class PinFragment : Fragment() {
                     activity?.finish()
                 } else {
                     CanislupusService.createService()
-                        .playerAuth(getAVM().qr, crypt(getAVM().qr, it.toInt())).enqueue(
+                        .playerAuth(getAVM().qr, Crypt.crypt(getAVM().qr, it.toInt())).enqueue(
                         object : Callback<ApiResponse<Player>> {
                             override fun onFailure(call: Call<ApiResponse<Player>>, t: Throwable) {
                                 val intent = Intent()
