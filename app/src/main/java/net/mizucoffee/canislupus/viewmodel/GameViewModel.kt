@@ -1,5 +1,6 @@
 package net.mizucoffee.canislupus.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import net.mizucoffee.canislupus.model.Player
 import net.mizucoffee.canislupus.model.werewolf.Card
@@ -8,6 +9,7 @@ class GameViewModel : ViewModel() {
     private lateinit var players: MutableList<Player>
     private lateinit var cardList: MutableList<Card>
     private lateinit var executeList: MutableList<Card>
+    var gameId = MutableLiveData<String>()
     private var confirmCount: Int = 0
 
     fun getPlayers() = players
