@@ -19,6 +19,7 @@ import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.AddPlayerActivity
 import net.mizucoffee.canislupus.databinding.FragmentPlayerListBinding
 import net.mizucoffee.canislupus.model.Player
+import net.mizucoffee.canislupus.repository.PrefService
 import net.mizucoffee.canislupus.viewmodel.PlayerListViewModel
 
 class PlayerListFragment : Fragment() {
@@ -47,6 +48,13 @@ class PlayerListFragment : Fragment() {
         )
 
         binding.viewModel?.also {
+            activity?.applicationContext?.let { con ->
+                val player = PrefService.loadPlayer(con)
+                if(player != null)
+                    it.setPlayer(player)
+                else
+                    it.setGuest()
+            }
             observePlayerList(it)
             observeToast(it)
             observeTransition(it)

@@ -58,7 +58,26 @@ class Seer : Villager() {
         }
         if (pos == null) {
             val list = cards.filter { it.owner == null }.map { it.name }
-            root.addView(TextView(context).apply { text = "場のカードは${list.joinToString("と")}でした" })
+            root.addView(TextView(context).apply {
+                text = "場のカードは"
+                textSize = 24f
+                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                width = MATCH_PARENT
+            })
+            root.addView(TextView(context).apply {
+                text = "${list.joinToString("と")}"
+                textSize = 48f
+                setPadding(0, dp2px(8, context.resources), 0, dp2px(8, context.resources))
+                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                setTextColor(Color.parseColor("#000000"))
+                width = MATCH_PARENT
+            })
+            root.addView(TextView(context).apply {
+                text = "でした"
+                textSize = 24f
+                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                width = MATCH_PARENT
+            })
         }
         return root
     }

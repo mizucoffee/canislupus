@@ -32,7 +32,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ID（戦績表示に使用します）"
+                android:text="ID"
                 android:textSize="16sp" />
 
             <EditText
@@ -48,7 +48,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="パスコード（参加する時に使用します）"
+                android:text="パスコード"
                 android:textSize="16sp" />
 
             <EditText
