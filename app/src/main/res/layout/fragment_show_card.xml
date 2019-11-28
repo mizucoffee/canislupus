@@ -6,7 +6,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewModel"
-            type="net.mizucoffee.canislupus.viewmodel.ShowPositionViewModel" />
+            type="net.mizucoffee.canislupus.viewmodel.ShowCardViewModel" />
     </data>
 
     <LinearLayout
@@ -30,6 +30,12 @@
                 android:textSize="32sp"
                 android:text="@{viewModel.card.camp.campName}"
                 tools:text="人狼陣営" />
+
+            <ImageView
+                android:id="@+id/symbol"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/ic_werewolf"/>
 
             <TextView
                 android:id="@+id/position"

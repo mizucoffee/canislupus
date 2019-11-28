@@ -11,9 +11,11 @@ import androidx.lifecycle.Observer
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
-import net.mizucoffee.canislupus.viewmodel.ShowPositionViewModel
+import net.mizucoffee.canislupus.viewmodel.ShowCardViewModel
 import net.mizucoffee.canislupus.model.werewolf.Card
 import android.content.DialogInterface
+import androidx.core.content.res.ResourcesCompat
+import kotlinx.android.synthetic.main.fragment_show_card.*
 import net.mizucoffee.canislupus.databinding.FragmentShowCardBinding
 
 class ShowCardFragment : Fragment() {
@@ -27,7 +29,7 @@ class ShowCardFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
         binding = FragmentShowCardBinding.inflate(inflater, container, false)
-        binding.viewModel = ViewModelProviders.of(this).get(ShowPositionViewModel::class.java)
+        binding.viewModel = ViewModelProviders.of(this).get(ShowCardViewModel::class.java)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -37,17 +39,18 @@ class ShowCardFragment : Fragment() {
 
         activity?.title = "canislupus - 役職確認"
         val count = getGVM().getConfirmCount()
-        val positions = getGVM().getCardList()
-        binding.viewModel?.card = positions[count]
-        binding.viewModel?.miniMessage = positions[count].getMiniMessage(positions)
+        val cards = getGVM().getCardList()
+        binding.viewModel?.card = cards[count]
+        symbol.setImageResource(cards[count].symbol)
+        binding.viewModel?.miniMessage = cards[count].getMiniMessage(cards)
 
         binding.viewModel?.also {
-            observeAboutPosition(it, positions[count])
-            observeTransition(it, positions[count])
+            observeAboutPosition(it, cards[count])
+            observeTransition(it, cards[count])
         }
     }
 
-    private fun observeAboutPosition(viewModel: ShowPositionViewModel, card: Card) {
+    private fun observeAboutPosition(viewModel: ShowCardViewModel, card: Card) {
         viewModel.aboutCard.observe(this, Observer {
             activity?.also {
                 AlertDialog.Builder(it).apply {
@@ -60,7 +63,7 @@ class ShowCardFragment : Fragment() {
         })
     }
 
-    private fun observeTransition(viewModel: ShowPositionViewModel, card: Card) {
+    private fun observeTransition(viewModel: ShowCardViewModel, card: Card) {
         viewModel.transition.observe(this, Observer {
             if (card.hasAbility() && !card.shouldSelectList()) {
                 getGVM().setCardList(card.ability(getGVM().getCardList(), ""))
