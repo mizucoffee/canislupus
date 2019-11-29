@@ -2,6 +2,9 @@ package net.mizucoffee.canislupus.repository
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -22,4 +25,11 @@ class CanislupusService {
             return retrofit.create(ICanislupusApi::class.java)
         }
     }
+}
+
+fun <T> Call<T>.simpleCall() {
+    this.enqueue(object : Callback<T> {
+        override fun onFailure(call: Call<T>, t: Throwable) {}
+        override fun onResponse(c: Call<T>, r: Response<T>) {}
+    })
 }

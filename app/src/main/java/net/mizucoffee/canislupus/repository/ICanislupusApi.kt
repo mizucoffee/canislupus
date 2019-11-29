@@ -36,5 +36,4 @@ interface ICanislupusApi {
         @Field("phase") phase: Int,
         @Field("data") data: String
     ): Call<ApiResponse<Game>>
-
 }

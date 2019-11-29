@@ -12,6 +12,7 @@ import net.mizucoffee.canislupus.model.ApiResponse
 import net.mizucoffee.canislupus.model.Game
 import net.mizucoffee.canislupus.model.GameInit
 import net.mizucoffee.canislupus.repository.CanislupusService
+import net.mizucoffee.canislupus.repository.simpleCall
 import net.mizucoffee.canislupus.viewmodel.GameViewModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -38,16 +39,7 @@ class GameActivity : AppCompatActivity() {
                     gameViewModel.gameId.postValue(response.body()?.data?.id)
                     CanislupusService.createService()
                         .postGame("${response.body()?.data?.id}", 0, "{}")
-                        .enqueue(object : Callback<ApiResponse<Game>> {
-                            override fun onFailure(call: Call<ApiResponse<Game>>, t: Throwable) {
-                            }
-
-                            override fun onResponse(
-                                c: Call<ApiResponse<Game>>,
-                                r: Response<ApiResponse<Game>>
-                            ) {
-                            }
-                        })
+                        .simpleCall()
                 }
             })
 
