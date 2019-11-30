@@ -15,6 +15,8 @@ import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.databinding.FragmentDiscussionBinding
 import net.mizucoffee.canislupus.enumerate.CardEnum
+import net.mizucoffee.canislupus.repository.CanislupusService
+import net.mizucoffee.canislupus.repository.simpleCall
 import net.mizucoffee.canislupus.viewmodel.DiscussionViewModel
 
 class DiscussionFragment : Fragment() {
@@ -38,11 +40,13 @@ class DiscussionFragment : Fragment() {
 
         activity?.title = "canislupus - 話し合い"
         var a = 1
+        var countList = mutableListOf<String>()
         CardEnum.values().forEach { card ->
             val count = getGVM().getCardList().count { it.card == card }
             if (count != 0) {
                 val tv = TextView(activity).apply {
                     setText("${card.init().name}: ${count}")
+                    countList.add("\"${card.init().name}\": \"${count}\"")
                     textSize = 24f
                     setTextColor(Color.parseColor("#AAAAAA"))
                     setPadding(dp2px(8),dp2px(2),dp2px(8),dp2px(2))
@@ -53,8 +57,13 @@ class DiscussionFragment : Fragment() {
             }
         }
 
+        val startTime = System.currentTimeMillis()
         binding.viewModel?.startTimer()
         binding.viewModel?.also { observeTransition(it) }
+
+        CanislupusService.createService()
+            .postGame("${getGVM().gameId.value}", 2, "{\"startTime\": $startTime, \"count\": {${countList.joinToString(",")}}}")
+            .simpleCall()
     }
 
     private fun dp2px(dp: Int) = (dp * resources.displayMetrics.density + 0.5f).toInt()

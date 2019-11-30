@@ -14,6 +14,8 @@ import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.databinding.FragmentPunishmentBinding
 import net.mizucoffee.canislupus.viewmodel.PunishmentViewModel
 import net.mizucoffee.canislupus.model.werewolf.Card
+import net.mizucoffee.canislupus.repository.CanislupusService
+import net.mizucoffee.canislupus.repository.simpleCall
 
 class PunishmentFragment : Fragment() {
 
@@ -57,6 +59,10 @@ class PunishmentFragment : Fragment() {
                 "${punishList.map { it.trueOwner?.name }.joinToString("さん \r")}さん"
 
         getGVM().setExecuteList(punishList)
+
+        CanislupusService.createService()
+            .postGame("${getGVM().gameId.value}", 4, "{\"today\": \"${today.text}\", \"punish\": \"${punish.text}\"}")
+            .simpleCall()
 
         binding.viewModel?.also { observeTransition(it) }
     }

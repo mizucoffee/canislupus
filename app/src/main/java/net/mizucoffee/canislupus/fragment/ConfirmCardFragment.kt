@@ -11,6 +11,8 @@ import net.mizucoffee.canislupus.activity.GameActivity
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.databinding.FragmentConfirmCardBinding
+import net.mizucoffee.canislupus.repository.CanislupusService
+import net.mizucoffee.canislupus.repository.simpleCall
 import net.mizucoffee.canislupus.viewmodel.ConfirmCardViewModel
 
 class ConfirmCardFragment : Fragment() {
@@ -35,6 +37,10 @@ class ConfirmCardFragment : Fragment() {
         activity?.title = "canislupus - 役職確認"
         binding.viewModel?.name = getGVM().getPlayers()[getGVM().getConfirmCount()].name
         binding.viewModel?.also { observeTransition(it) }
+
+        CanislupusService.createService()
+            .postGame("${getGVM().gameId.value}", 1, "{\"name\": \"${getGVM().getPlayers()[getGVM().getConfirmCount()].name}\"}")
+            .simpleCall()
     }
 
     private fun observeTransition(viewModel: ConfirmCardViewModel) {

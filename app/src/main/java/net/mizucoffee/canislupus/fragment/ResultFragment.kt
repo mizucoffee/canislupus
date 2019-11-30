@@ -11,6 +11,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.TextView
 import androidx.core.view.marginTop
 import androidx.lifecycle.Observer
+import kotlinx.android.synthetic.main.fragment_punishment.*
 import kotlinx.android.synthetic.main.fragment_result.*
 
 import net.mizucoffee.canislupus.R
@@ -18,6 +19,8 @@ import net.mizucoffee.canislupus.activity.GameActivity
 import net.mizucoffee.canislupus.databinding.FragmentResultBinding
 import net.mizucoffee.canislupus.viewmodel.ResultViewModel
 import net.mizucoffee.canislupus.model.werewolf.Card
+import net.mizucoffee.canislupus.repository.CanislupusService
+import net.mizucoffee.canislupus.repository.simpleCall
 
 class ResultFragment : Fragment() {
 
@@ -45,11 +48,13 @@ class ResultFragment : Fragment() {
         sub.text = winner.sub
         if (winner.sub == "") sub.visibility = GONE
 
+        var vList = mutableListOf<String>()
         getGVM().getCardList().forEach { card ->
             card.vote?.let {
                 val tv = TextView(activity)
                 tv.apply {
                     text = "${card.owner?.name} -> ${getGVM().findPositionById(it)?.owner?.name}"
+                    vList.add("\"${text}\"")
                     textSize = 24f
                     setPadding(dp2px(0), dp2px(8), dp2px(0), dp2px(0))
                 }
@@ -57,15 +62,17 @@ class ResultFragment : Fragment() {
             }
         }
 
+        var cList = mutableListOf<String>()
         getGVM().getCardList().forEach { card ->
             card.owner?.let {
                 val tv = TextView(activity)
                 tv.apply {
                     val trueCard = "${getGVM().findTruePositionById(it.id)?.name}"
-                    text = if(card.name != trueCard)
+                    text = if (card.name != trueCard)
                         "${it.name}: ${card.name} -> $trueCard"
                     else
                         "${it.name}: ${card.name}"
+                    cList.add("\"${text}\"")
                     textSize = 24f
                     setPadding(dp2px(0), dp2px(8), dp2px(0), dp2px(0))
                 }
@@ -73,16 +80,28 @@ class ResultFragment : Fragment() {
             }
         }
 
+        var aList = mutableListOf<String>()
         getGVM().getCardList().filter { it.abilityResultText() != null }.forEach { card ->
             val tv = TextView(activity)
             tv.apply {
                 text = card.abilityResultText()
+                aList.add("\"${text}\"")
                 textSize = 24f
                 textAlignment = TextView.TEXT_ALIGNMENT_CENTER
                 setPadding(dp2px(0), dp2px(8), dp2px(0), dp2px(0))
             }
             ability.addView(tv)
         }
+
+        CanislupusService.createService()
+            .postGame(
+                "${getGVM().gameId.value}",
+                5,
+                "{\"voteList\": [${vList.joinToString(",")}]," +
+                        "\"cardList\": [${cList.joinToString(",")}]," +
+                        "\"abilityList\": [${aList.joinToString(",")}]}"
+            )
+            .simpleCall()
 
         binding.viewModel?.also { observeTransition(it) }
     }
