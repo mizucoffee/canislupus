@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="net.mizucoffee.canislupus.viewmodel.QrViewModel" />
+            type="net.mizucoffee.canislupus.viewmodel.PlayerQrViewModel" />
     </data>
 
     <FrameLayout

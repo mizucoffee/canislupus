@@ -81,7 +81,7 @@ class ResultFragment : Fragment() {
         }
 
         var aList = mutableListOf<String>()
-        getGVM().getCardList().filter { it.abilityResultText() != null }.forEach { card ->
+        getGVM().getCardList().filter { it.owner != null }.filter { it.abilityResultText() != null }.forEach { card ->
             val tv = TextView(activity)
             tv.apply {
                 text = card.abilityResultText()
@@ -97,7 +97,9 @@ class ResultFragment : Fragment() {
             .postGame(
                 "${getGVM().gameId.value}",
                 5,
-                "{\"voteList\": [${vList.joinToString(",")}]," +
+                "{\"winner\": \"${winner.result}\"," +
+                        "\"sub\": \"${winner.sub}\"," +
+                        "\"voteList\": [${vList.joinToString(",")}]," +
                         "\"cardList\": [${cList.joinToString(",")}]," +
                         "\"abilityList\": [${aList.joinToString(",")}]}"
             )

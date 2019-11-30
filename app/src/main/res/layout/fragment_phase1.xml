@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="256dp"
+        android:layout_height="64dp"
+        android:src="@drawable/canislupus"
+        android:alpha="0.3"
+        android:layout_gravity="bottom|center"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="役職確認"
+            android:textSize="48sp"
+            android:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            android:layout_gravity="center"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Player 1さん"
+            android:textSize="64sp"
+            android:textColor="#000000"
+            android:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="12sp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</FrameLayout>

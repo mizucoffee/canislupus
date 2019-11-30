@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import net.mizucoffee.canislupus.R
-import net.mizucoffee.canislupus.fragment.QrFragment
+import net.mizucoffee.canislupus.fragment.PlayerQrFragment
 import net.mizucoffee.canislupus.viewmodel.AddPlayerViewModel
 
 
@@ -21,7 +21,7 @@ class AddPlayerActivity : AppCompatActivity() {
 
         if (savedInstanceState == null) {
             val transaction = supportFragmentManager.beginTransaction()
-            transaction.add(R.id.fragmentLayout, QrFragment.newInstance())
+            transaction.add(R.id.fragmentLayout, PlayerQrFragment.newInstance())
             transaction.commit()
         }
     }

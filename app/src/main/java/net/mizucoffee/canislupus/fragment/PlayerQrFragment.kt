@@ -1,12 +1,8 @@
 package net.mizucoffee.canislupus.fragment
 
 import android.Manifest
-import android.app.Activity
-import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -15,31 +11,33 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 
 import net.mizucoffee.canislupus.R
 import net.mizucoffee.canislupus.activity.AddPlayerActivity
-import net.mizucoffee.canislupus.databinding.FragmentQrBinding
-import net.mizucoffee.canislupus.viewmodel.QrViewModel
+import net.mizucoffee.canislupus.viewmodel.PlayerQrViewModel
 import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
-import kotlinx.android.synthetic.main.fragment_qr.*
+import kotlinx.android.synthetic.main.fragment_player_qr.*
+import net.mizucoffee.canislupus.databinding.FragmentPlayerQrBinding
+import io.socket.emitter.Emitter
+import io.socket.client.IO
+import io.socket.client.Socket
 
 
-class QrFragment : Fragment() {
+class PlayerQrFragment : Fragment() {
 
     companion object {
-        fun newInstance() = QrFragment()
+        fun newInstance() = PlayerQrFragment()
     }
 
     private fun getAVM() = (activity as AddPlayerActivity).vm
-    private lateinit var binding: FragmentQrBinding
+    private lateinit var binding: FragmentPlayerQrBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, s: Bundle?): View? {
-        binding = FragmentQrBinding.inflate(inflater, container, false)
-        binding.viewModel = ViewModelProviders.of(this).get(QrViewModel::class.java)
+        binding = FragmentPlayerQrBinding.inflate(inflater, container, false)
+        binding.viewModel = ViewModelProviders.of(this).get(PlayerQrViewModel::class.java)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -73,8 +71,8 @@ class QrFragment : Fragment() {
         binding.viewModel?.also { observeAlert(it) }
     }
 
-    private fun observeAlert(viewModel: QrViewModel) {
-        viewModel.alert.observe(this, Observer {
+    private fun observeAlert(viewModelPlayer: PlayerQrViewModel) {
+        viewModelPlayer.alert.observe(this, Observer {
             activity?.let {
                 AlertDialog.Builder(it)
                     .setTitle("QRコードを作成する")

@@ -26,12 +26,11 @@ class MainActivity : AppCompatActivity() {
             welcomeScreen.forceShow()
         }
 
-//        if(AppLaunchChecker.hasStartedFromLauncher(applicationContext)){
-//        }
-//        AppLaunchChecker.onActivityCreate(this)
-
         gameStartBtn.setOnClickListener {
             startActivity(Intent(applicationContext, GameActivity::class.java))
+        }
+        viewModeBtn.setOnClickListener {
+            startActivity(Intent(applicationContext, ViewerActivity::class.java))
         }
     }
 

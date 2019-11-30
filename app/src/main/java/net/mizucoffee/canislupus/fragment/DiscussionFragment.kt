@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_discussion.*
@@ -53,12 +54,11 @@ class DiscussionFragment : Fragment() {
                 }
                 if (a % 2 != 0) cardList1.addView(tv) else cardList2.addView(tv)
                 a++
-                println(card.name)
             }
         }
 
-        val startTime = System.currentTimeMillis()
-        binding.viewModel?.startTimer()
+        val startTime = System.currentTimeMillis() - 1000
+        binding.viewModel?.startTimer(startTime)
         binding.viewModel?.also { observeTransition(it) }
 
         CanislupusService.createService()
